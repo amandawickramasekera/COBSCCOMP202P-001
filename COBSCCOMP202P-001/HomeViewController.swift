@@ -7,33 +7,36 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 class HomeViewController: UIViewController {
 
-    //var data : [FoodResult] = []
-    
+    let btnFavourites : UIButton = {
+        let btnFav = UIButton()
+        btnFav.translatesAutoresizingMaskIntoConstraints = false
+        return btnFav
+    }()
 
     
-    
-    var imgView : UIImageView = {
+    let imgView : UIImageView = {
         let img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         return img
     }()
         
-    var breakfast : UIButton = {
+    let breakfast : UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    var lunch : UIButton = {
+    let lunch : UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    var dinner : UIButton = {
+    let dinner : UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -41,7 +44,7 @@ class HomeViewController: UIViewController {
     
 
     
-    var collection : UICollectionView = {
+    let collection : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -53,32 +56,16 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupUI()
+        
+        btnFavourites.addTarget(self, action: #selector(favoritesClicked), for: .touchUpInside)
+        
     }
     
-    /*func downloadData(){
-        let url = URL(string: "https://rickandmortyapi.com/api/character")!
-        let request = URLRequest(url: url)
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            if let FoodData = data {
-                let json = try? JSONDecoder().decode(FoodData.self, from: FoodData)
-                if let results = json?.results {
-                    self.data = results
-                    
-                    DispatchQueue.main.async {
-                        self.collection.reloadData()
-                    }
-                }
-               
-            }
-            
-        }
-        task.resume()
-    }*/
     
     func setupUI(){
         
+        self.btnFavourites.setTitle("Favorites", for: .normal)
+        self.btnFavourites.setTitleColor(.systemGreen, for: .normal)
 
         self.imgView.image = UIImage(named: "food1")
         self.imgView.contentMode = .top
@@ -99,14 +86,21 @@ class HomeViewController: UIViewController {
         viewHolder.axis = .horizontal
         viewHolder.spacing = 70
         
-        
+        self.view.addSubview(btnFavourites)
         self.view.addSubview(imgView)
         self.view.addSubview(viewHolder)
         self.view.addSubview(collection)
         
-        imgView.snp.makeConstraints{make in make.leading.top.equalToSuperview().offset(20)
+        btnFavourites.snp.makeConstraints{make in
+            make.top.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().offset(250)
             make.trailing.equalToSuperview().offset(-20)
             
+        }
+        
+        imgView.snp.makeConstraints{make in make.top.equalTo(btnFavourites.snp_bottomMargin).offset(40)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
         }
         
         viewHolder.snp.makeConstraints{make in make.top.equalTo(imgView.snp_bottomMargin).offset(40)
@@ -114,9 +108,6 @@ class HomeViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-20)
         }
     
-        
-        //collection.dataSource = self
-        //collection.delegate = self
         
         collection.snp.makeConstraints{ make in
             make.top.equalTo(viewHolder.snp_bottomMargin).offset(30)
@@ -126,20 +117,23 @@ class HomeViewController: UIViewController {
         
         
     }
+    
+    @objc private func favoritesClicked()
+    {
+        let user = FirebaseAuth.Auth.auth().currentUser
+        if(user != nil)
+        {
+            let vc = BookmarksViewController()
+            self.present(vc, animated: true, completion: nil)
+        }
+        else{
+            let vc = ViewController()
+            self.present(vc, animated: true, completion: nil)
+        }
+    }
 
 }
 
-/*extension HomeViewController : UICollectionViewDelegate, UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell : FoodCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FoodCell
-        
-        cell.foodImageView.kf.setImage(with: URL(string: data[indexPath.row].image))
-        return cell
-    }
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data.count
-    }
-}*/
 
 class FoodCell : UICollectionViewCell {
     

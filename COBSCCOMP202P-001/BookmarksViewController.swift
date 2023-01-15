@@ -11,8 +11,6 @@ import Kingfisher
 
 class BookmarksViewController: UIViewController {
 
-    class BookmarksViewController: UIViewController {
-
         //let data = ["Apple", "Google", "Facebook", "Twitter", "Instagram", "HP", "Amazon", "Ebay", "Dell", "Acer"]
         //var movies : [Result] = []
 
@@ -184,6 +182,6 @@ class BookmarksViewController: UIViewController {
             }
             
         }
-    }
+    
 
 }

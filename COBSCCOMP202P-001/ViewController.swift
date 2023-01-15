@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import FirebaseAuth
 
 class ViewController: UIViewController {
 
@@ -56,6 +57,9 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         setupUI()
+        btnLogin.addTarget(self, action: #selector(signIn), for: .touchUpInside)
+        
+        btnReg.addTarget(self, action: #selector(openSignUp), for: .touchUpInside)
         
     }
 
@@ -73,11 +77,40 @@ class ViewController: UIViewController {
         
     }
     
-    func signIn()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        emailText.becomeFirstResponder()
+    }
+    
+    @objc private func signIn()
     {
         
+        guard let email = emailText.text, !email.isEmpty,
+              let pw = pwText.text, !pw.isEmpty
+        else{
+            let alert = UIAlertController(title: "Credentials not entered", message: "Please enter credentials and try again", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in}))
+            self.present(alert, animated: true)
+            return
+        }
+        
+        
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: pw, completion: {result, error in
+            guard error == nil else
+            {
+                let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: {_ in}))
+                self.present(alert, animated: true)
+                return
+            }
+        })
     }
 
+    @objc private func openSignUp()
+    {
+        let vc = SignUpViewController()
+        self.present(vc, animated: true, completion: nil)
+    }
 }
 
 

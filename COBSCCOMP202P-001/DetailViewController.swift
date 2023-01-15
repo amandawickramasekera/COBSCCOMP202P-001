@@ -66,18 +66,6 @@ class DetailViewController: UIViewController {
         }
     }
     
-   /* func loadContent(){
-        if let movie = selectedMovie {
-            let imageLink = "https://image.tmdb.org/t/p/w185" + movie.backdropPath
-            if let imageURL = URL(string: imageLink){
-                
-                poster.kf.setImage(with: imageURL)
-            }
-            titleLabel.text = movie.title
-            releaseDateLabel.text = movie.releaseDate
-            overviewLabel.text = movie.overview
-        }
-    }*/
-    
+   
 }
 
