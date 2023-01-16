@@ -9,8 +9,7 @@ import UIKit
 import SnapKit
 
 class DetailViewController: UIViewController {
-
-    //var selectedMovie : Result?
+    
     
     let image : UIImageView = {
         let imageView = UIImageView()
@@ -25,7 +24,7 @@ class DetailViewController: UIViewController {
         label.font = .systemFont(ofSize: 18, weight: .bold)
         return label
     }()
-    let categoryLabel : UILabel = {
+    let caloriesLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .regular)
@@ -54,7 +53,7 @@ class DetailViewController: UIViewController {
             make.height.equalTo(400)
             make.leading.trailing.equalToSuperview()
         }
-        let holder = UIStackView(arrangedSubviews: [titleLabel, categoryLabel, ingredientsLabel])
+        let holder = UIStackView(arrangedSubviews: [titleLabel, caloriesLabel, ingredientsLabel])
         holder.spacing = 10
         holder.axis = .vertical
         self.view.addSubview(holder)

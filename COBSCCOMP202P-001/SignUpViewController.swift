@@ -132,10 +132,10 @@ class SignUpViewController: UIViewController {
                 return
             }
             
-            var user = FirebaseAuth.Auth.auth().currentUser
+            let user = FirebaseAuth.Auth.auth().currentUser
             if(user != nil)
             {
-                var userkey = user!.uid
+                let userkey = user!.uid
                 let object: [String: Any] = [
                     "uid": userkey,
                     "name": name
