@@ -11,6 +11,12 @@ import FirebaseAuth
 import FirebaseDatabase
 
 class SignUpViewController: UIViewController {
+    
+    let imgView : UIImageView = {
+        let img = UIImageView()
+        img.translatesAutoresizingMaskIntoConstraints = false
+        return img
+    }()
 
     let label: UILabel = {
         let label = UILabel()
@@ -26,6 +32,7 @@ class SignUpViewController: UIViewController {
         text.placeholder = "Name"
         text.layer.borderWidth = 1
         text.layer.borderColor = UIColor.systemGray.cgColor
+        text.autocorrectionType = .no
         return text
     }()
     
@@ -35,6 +42,8 @@ class SignUpViewController: UIViewController {
         text.placeholder = "Email address"
         text.layer.borderWidth = 1
         text.layer.borderColor = UIColor.systemGray.cgColor
+        text.autocapitalizationType = .none
+        text.autocorrectionType = .no
         return text
     }()
     
@@ -45,6 +54,8 @@ class SignUpViewController: UIViewController {
         text.isSecureTextEntry = true
         text.layer.borderWidth = 1
         text.layer.borderColor = UIColor.systemGray.cgColor
+        text.autocapitalizationType = .none
+        text.autocorrectionType = .no
         return text
     }()
     
@@ -56,6 +67,8 @@ class SignUpViewController: UIViewController {
         text.isSecureTextEntry = true
         text.layer.borderWidth = 1
         text.layer.borderColor = UIColor.systemGray.cgColor
+        text.autocapitalizationType = .none
+        text.autocorrectionType = .no
         return text
     }()
     
@@ -89,18 +102,29 @@ class SignUpViewController: UIViewController {
 
     func setupUI()
     {
+        self.imgView.image = UIImage(named: "food1")
+        self.imgView.contentMode = .top
     
         nameText.frame = CGRect(x: 20, y: 60, width: 50, height: 50)
         emailText.frame = CGRect(x: 20, y: 120, width: 50, height: 50)
         pwText.frame = CGRect(x: 20, y: 180, width: 50, height: 50)
         cpwText.frame = CGRect(x: 20, y: 240, width: 50, height: 50)
-        let viewHolder = UIStackView(arrangedSubviews: [label, nameText, emailText, pwText, btnRegister, btnLog])
+        let viewHolder = UIStackView(arrangedSubviews: [label, nameText, emailText, pwText, cpwText, btnRegister, btnLog])
         viewHolder.axis = .vertical
         viewHolder.spacing = 15
         
-        self.view.addSubview(viewHolder)
         
-        viewHolder.snp.makeConstraints{make in make.top.leading.equalToSuperview().offset(20)
+        self.view.addSubview(viewHolder)
+        self.view.addSubview(imgView)
+        
+        imgView.snp.makeConstraints{make in
+            make.top.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
+        }
+        
+        viewHolder.snp.makeConstraints{make in
+            make.top.equalTo(imgView.snp_bottomMargin).offset(30)
+            make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
         }
         
@@ -123,17 +147,19 @@ class SignUpViewController: UIViewController {
             self.present(alert, animated: true)
             return
         }
-        
+        if(cpw == pw)
+        {
         FirebaseAuth.Auth.auth().createUser(withEmail: email, password: pw, completion: {result, error in
-            guard error == nil else{
+            if error != nil
+            {
                 let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: {_ in}))
                 self.present(alert, animated: true)
-                return
             }
+            else{
             
             let user = FirebaseAuth.Auth.auth().currentUser
-            if(user != nil)
+            if user != nil
             {
                 let userkey = user!.uid
                 let object: [String: Any] = [
@@ -143,9 +169,16 @@ class SignUpViewController: UIViewController {
                 ]
                 self.database.child("Users").child(userkey).setValue(object)
             }
+            }
         })
-        
-        
+    
+        }
+        else{
+            let alert = UIAlertController(title: "Passwords do not match", message: "Created password and confirmed password must be same", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in}))
+            self.present(alert, animated: true)
+        }
+    
     
     }
     
@@ -153,5 +186,6 @@ class SignUpViewController: UIViewController {
     {
         let vc = ViewController()
         self.present(vc, animated: true, completion: nil)
+        //self.navigationController?.pushViewController(vc, animated: true)
     }
 }

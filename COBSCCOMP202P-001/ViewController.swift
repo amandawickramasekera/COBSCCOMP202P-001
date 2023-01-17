@@ -10,6 +10,12 @@ import SnapKit
 import FirebaseAuth
 
 class ViewController: UIViewController {
+    
+    let imgView : UIImageView = {
+        let img = UIImageView()
+        img.translatesAutoresizingMaskIntoConstraints = false
+        return img
+    }()
 
     let label: UILabel = {
         let label = UILabel()
@@ -25,6 +31,8 @@ class ViewController: UIViewController {
         text.placeholder = "Email address"
         text.layer.borderWidth = 1
         text.layer.borderColor = UIColor.systemGray.cgColor
+        text.autocapitalizationType = .none
+        text.autocorrectionType = .no
         return text
     }()
     
@@ -35,6 +43,8 @@ class ViewController: UIViewController {
         text.isSecureTextEntry = true
         text.layer.borderWidth = 1
         text.layer.borderColor = UIColor.systemGray.cgColor
+        text.autocapitalizationType = .none
+        text.autocorrectionType = .no
         return text
     }()
     
@@ -65,13 +75,24 @@ class ViewController: UIViewController {
 
     func setupUI()
     {
+        self.imgView.image = UIImage(named: "foodimg")
+        self.imgView.contentMode = .top
+        
         let viewHolder = UIStackView(arrangedSubviews: [label, emailText, pwText, btnLogin, btnReg])
         viewHolder.axis = .vertical
-        viewHolder.spacing = 15
+        viewHolder.spacing = 30
         
+        self.view.addSubview(imgView)
         self.view.addSubview(viewHolder)
         
-        viewHolder.snp.makeConstraints{make in make.top.leading.equalToSuperview().offset(20)
+        imgView.snp.makeConstraints{make in
+            make.top.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
+        }
+        
+        viewHolder.snp.makeConstraints{make in
+            make.top.equalTo(imgView.snp_bottomMargin).offset(30)
+            make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
         }
         
@@ -96,12 +117,14 @@ class ViewController: UIViewController {
         
         
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: pw, completion: {result, error in
-            guard error == nil else
-            {
+            if error != nil{
                 let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: {_ in}))
                 self.present(alert, animated: true)
                 return
+            } else{
+                let vc = BookmarksViewController()
+                self.present(vc, animated: true, completion: nil)
             }
         })
     }
@@ -110,6 +133,7 @@ class ViewController: UIViewController {
     {
         let vc = SignUpViewController()
         self.present(vc, animated: true, completion: nil)
+        //self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -14,7 +14,6 @@ class HomeViewController: UIViewController {
     
     //var foods : [Food] = []
     
-    
 
     let btnFavourites : UIButton = {
         let btnFav = UIButton()
@@ -35,6 +34,11 @@ class HomeViewController: UIViewController {
         return table
     }()
         
+    let btnLogout : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
     
     /*let breakfast : UIButton = {
         let button = UIButton()
@@ -71,6 +75,8 @@ class HomeViewController: UIViewController {
         
         btnFavourites.addTarget(self, action: #selector(favoritesClicked), for: .touchUpInside)
         
+        btnLogout.addTarget(self, action: #selector(logout), for: .touchUpInside)
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -84,6 +90,8 @@ class HomeViewController: UIViewController {
         
         self.btnFavourites.setTitle("Favorites", for: .normal)
         self.btnFavourites.setTitleColor(.systemGreen, for: .normal)
+        
+        
 
         //self.imgView.image = UIImage(named: "food1")
         //self.imgView.contentMode = .top
@@ -111,6 +119,10 @@ class HomeViewController: UIViewController {
         //self.view.addSubview(viewHolder)
         //self.view.addSubview(collection)
         
+        let user = FirebaseAuth.Auth.auth().currentUser
+        
+        
+        
         btnFavourites.snp.makeConstraints{make in
             make.top.equalToSuperview().offset(20)
             make.leading.equalToSuperview().offset(250)
@@ -134,23 +146,55 @@ class HomeViewController: UIViewController {
         }*/
         
         tableView.snp.makeConstraints{make in
-            make.top.equalTo(btnFavourites.snp_bottomMargin).offset(30)
+            make.top.equalTo(btnFavourites.snp_bottomMargin).offset(20)
             make.leading.equalToSuperview().offset(20)
-            make.trailing.bottom.equalToSuperview().offset(-20)
+            make.trailing.equalToSuperview().offset(-20)
+        }
+        
+        if user != nil{
+            
+            self.btnLogout.setTitle("Logout", for: .normal)
+            self.btnLogout.setTitleColor(.systemGreen, for: .normal)
+            
+            self.view.addSubview(btnLogout)
+            
+            btnLogout.snp.makeConstraints{make in
+                make.top.equalTo(tableView.snp_bottomMargin).offset(20)
+                make.leading.equalToSuperview().offset(20)
+                make.trailing.equalToSuperview().offset(-20)
+            }
         }
     }
     
     @objc private func favoritesClicked()
     {
         let user = FirebaseAuth.Auth.auth().currentUser
-        if(user != nil)
+        if user != nil
         {
             let vc = BookmarksViewController()
             self.present(vc, animated: true, completion: nil)
+            //self.navigationController?.pushViewController(vc, animated: true)
         }
         else{
             let vc = ViewController()
             self.present(vc, animated: true, completion: nil)
+            //self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    
+    @objc private func logout()
+    {
+        do{
+            try FirebaseAuth.Auth.auth().signOut()
+            let vc = HomeViewController()
+            self.present(vc, animated: true, completion: nil)
+        }
+        catch{
+        
+            let alert = UIAlertController(title: "Error", message: "Something went wrong", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in}))
+            self.present(alert, animated: true)
         }
     }
 
