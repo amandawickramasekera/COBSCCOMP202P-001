@@ -135,7 +135,7 @@ class SignUpViewController: UIViewController {
         nameText.becomeFirstResponder()
     }
     
-    @objc private func signUp()
+    @objc func signUp()
     {
         guard let name = nameText.text, !name.isEmpty,
               let email = emailText.text, !email.isEmpty,
@@ -147,8 +147,21 @@ class SignUpViewController: UIViewController {
             self.present(alert, animated: true)
             return
         }
-        if(cpw == pw)
+        if cpw != pw
         {
+            let alert = UIAlertController(title: "Passwords do not match", message: "Created password and confirmed password must be same", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in}))
+            self.present(alert, animated: true)
+            
+        }
+        else if pw.count < 6
+        {
+            let alert = UIAlertController(title: "Password too short", message: "Password must be at least 6 characters long", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in}))
+            self.present(alert, animated: true)
+            
+        }
+        else{
         FirebaseAuth.Auth.auth().createUser(withEmail: email, password: pw, completion: {result, error in
             if error != nil
             {
@@ -165,7 +178,6 @@ class SignUpViewController: UIViewController {
                 let object: [String: Any] = [
                     "uid": userkey,
                     "name": name
-                    //"favourites": ""
                 ]
                 self.database.child("Users").child(userkey).setValue(object)
             }
@@ -173,19 +185,13 @@ class SignUpViewController: UIViewController {
         })
     
         }
-        else{
-            let alert = UIAlertController(title: "Passwords do not match", message: "Created password and confirmed password must be same", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in}))
-            self.present(alert, animated: true)
-        }
-    
+       
     
     }
     
-    @objc private func openSignIn()
+    @objc func openSignIn()
     {
         let vc = ViewController()
         self.present(vc, animated: true, completion: nil)
-        //self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -43,7 +43,7 @@ class DetailViewController: UIViewController {
         
         self.view.backgroundColor = .white
         setupConstraint()
-        //loadContent()
+        
     }
     
     func setupConstraint(){

@@ -129,7 +129,7 @@ class ViewController: UIViewController {
         })
     }
 
-    @objc private func openSignUp()
+    @objc func openSignUp()
     {
         let vc = SignUpViewController()
         self.present(vc, animated: true, completion: nil)

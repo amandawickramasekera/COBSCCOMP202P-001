@@ -5,152 +5,108 @@
 //  Created by Amanda Wickramasekera on 2023-01-12.
 //
 
-import UIKit
-import SnapKit
-import FirebaseAuth
-import Kingfisher
+import UIKit //this line imports UIKit with which we create UI components
+import SnapKit //this line imports SnapKit with which we create constraints
+import FirebaseAuth //this line imports Firebase Auth which we use to register and login users
+import FirebaseDatabase //this line imports Firebase Database where we store details of food and also the user details like user's name and which food the user has added to favorites
+import Kingfisher //this line imports Kingfisher which is used to cache images that we retrieve
 
 class HomeViewController: UIViewController {
     
-    //var foods : [Food] = []
+    //creating database reference variable called 'ref'
+    var ref: DatabaseReference?
+    var databaseHandle: DatabaseHandle?
     
-
+    //creating foods array
+    var foods = [String] ()
+    
+    //creating btnFavorites which takes user to the favorites where the user can view the food user has added to favorites
     let btnFavourites : UIButton = {
         let btnFav = UIButton()
         btnFav.translatesAutoresizingMaskIntoConstraints = false
         return btnFav
     }()
-
     
-    /*let imgView : UIImageView = {
-        let img = UIImageView()
-        img.translatesAutoresizingMaskIntoConstraints = false
-        return img
-    }()*/
-    
+    //creating the tableview which shows all the foods stored in the database
     let tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
-        
+    
+    //creating the btnLogout which allows user to log out if they are already logged in
     let btnLogout : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
-    
-    /*let breakfast : UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let lunch : UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let dinner : UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()*/
-    
-
-    
-   /* let collection : UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collection.register(FoodCell.self, forCellWithReuseIdentifier: "cell")
-        return collection
-    }()*/
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        setupUI()
+        view.backgroundColor = .white //this line makes the screen white in color
+        setupUI() //calling setupUI function
+
         
-        btnFavourites.addTarget(self, action: #selector(favoritesClicked), for: .touchUpInside)
+        btnFavourites.addTarget(self, action: #selector(favoritesClicked), for: .touchUpInside) //this line calls the favoritesClicked function whenever user clicks on btnFavorites
         
-        btnLogout.addTarget(self, action: #selector(logout), for: .touchUpInside)
+        btnLogout.addTarget(self, action: #selector(logout), for: .touchUpInside) //this line calls the logout function whenever user clicks on btnLogout
+        
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        
+    
         
         self.tableView.register(MyCellView.self, forCellReuseIdentifier: "cell")
+        
+        //initializing the ref variable
+        ref = FirebaseDatabase.Database.database().reference()
+        
+        //following part of code is supposed to food data to the tableView. However this does not work.
+        databaseHandle = ref?.child("Foods").observe(.childAdded, with: {(snapshot) in
+            
+            let food = snapshot.value as? String
+            
+            if let actualFood = food {
+                self.foods.append(actualFood)
+                
+                self.tableView.reloadData()
+            }
+            
+        })
     }
     
-    
+    //declaring setupUI function
     func setupUI(){
         
-        self.btnFavourites.setTitle("Favorites", for: .normal)
-        self.btnFavourites.setTitleColor(.systemGreen, for: .normal)
-        
-        
+        //following two lines add the image named 'fvorited' in assets into the btnFavorites. (This was done to make the UI look better)
+        let btnFavImg = UIImage(named: "favorited")
+        self.btnFavourites.setBackgroundImage(btnFavImg, for: .normal)
 
-        //self.imgView.image = UIImage(named: "food1")
-        //self.imgView.contentMode = .top
+        
+        self.view.addSubview(btnFavourites) //this line adds btnFavorites to the main screen
+        self.view.addSubview(tableView) //this line adds the tableView to the main screen
     
         
-
-        /*self.breakfast.setTitle("Breakfast", for: .normal)
-        self.lunch.setTitle("Lunch", for: .normal)
-        self.dinner.setTitle("Dinner", for: .normal)
         
-        
-        
-        self.breakfast.setTitleColor(.systemGreen, for: .normal)
-        self.lunch.setTitleColor(.systemGreen, for: .normal)
-        self.dinner.setTitleColor(.systemGreen, for: .normal)
-        
-
-        let viewHolder = UIStackView(arrangedSubviews: [breakfast, lunch, dinner])
-        viewHolder.axis = .horizontal
-        viewHolder.spacing = 70*/
-        
-        self.view.addSubview(btnFavourites)
-        self.view.addSubview(tableView)
-        //self.view.addSubview(imgView)
-        //self.view.addSubview(viewHolder)
-        //self.view.addSubview(collection)
-        
-        let user = FirebaseAuth.Auth.auth().currentUser
-        
-        
-        
+        //the following part of code creates constrains for btnFavorites with the help of SnapKit
         btnFavourites.snp.makeConstraints{make in
-            make.top.equalToSuperview().offset(20)
-            make.leading.equalToSuperview().offset(250)
+            make.top.equalToSuperview().offset(30)
+            make.leading.equalToSuperview().offset(317)
             make.trailing.equalToSuperview().offset(-20)
         }
         
-        /*imgView.snp.makeConstraints{make in make.top.equalTo(btnFavourites.snp_bottomMargin).offset(40)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
-        }
-        
-        viewHolder.snp.makeConstraints{make in make.top.equalTo(imgView.snp_bottomMargin).offset(40)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
-        }
-        
-        collection.snp.makeConstraints{ make in
-            make.top.equalTo(viewHolder.snp_bottomMargin).offset(30)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.bottom.equalToSuperview().offset(-20)
-        }*/
-        
+    
+        //the following part of code creates constrains for tableView with the help of SnapKit
         tableView.snp.makeConstraints{make in
             make.top.equalTo(btnFavourites.snp_bottomMargin).offset(20)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
         }
         
+        
+        let user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
+        
+        //the following part of code sets title and title color and creates constrains for btnLogin with the help of SnapKit if the current user inside the user varible is not null (if condition is used to check if the user is null because we do not need to show the logout button if the user has not logged in yet)
         if user != nil{
             
             self.btnLogout.setTitle("Logout", for: .normal)
@@ -166,25 +122,33 @@ class HomeViewController: UIViewController {
         }
     }
     
-    @objc private func favoritesClicked()
+    
+    //declaring favoritesClicked function
+    @objc func favoritesClicked()
     {
-        let user = FirebaseAuth.Auth.auth().currentUser
+        
+        
+        let user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
+        
+        //the following part of code opens the BookmarksViewController which shows the food user has added to favorites if they are already logged in and if not, it opens the ViewController on which the user can log in to the application
         if user != nil
         {
             let vc = BookmarksViewController()
             self.present(vc, animated: true, completion: nil)
-            //self.navigationController?.pushViewController(vc, animated: true)
+            
         }
         else{
             let vc = ViewController()
             self.present(vc, animated: true, completion: nil)
-            //self.navigationController?.pushViewController(vc, animated: true)
+            
         }
     }
     
     
-    @objc private func logout()
+    //declaring logout function
+    @objc func logout()
     {
+        //following lines of code tries to log the user out and load the HomeViewController again (because the logout button should not be visible when user is logged out) and if an exception occured, an alert is shown to the user
         do{
             try FirebaseAuth.Auth.auth().signOut()
             let vc = HomeViewController()
@@ -229,26 +193,15 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//            let cell = UITableViewCell(style: .subtitle , reuseIdentifier: "cell")
-//            return cell
-        
-        
-        
+       
         let cell : MyCellView = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyCellView
 
-//            cell.myImage.image = UIImage(named: "logo")
-        //cell.titleLabel.text = foods[indexPath.row].originalTitle
-//            cell.descriptionLabel.text = "IOS Application Development"
-       
+        cell.myImage.image = UIImage(named: "food1")
+        cell.titleLabel.text = "abc"
         
-        /*let imageURL = "" + foods[indexPath.row].backdropPath
-        if let url = URL(string: imageURL){
-            cell.myImage.kf.setImage(with: url)
-        }*/
         return cell
 
-        
-        //dequeueReusableCell - it can reuse in same cell by injecting data
+
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexpath: IndexPath) -> CGFloat {
         return 4
@@ -256,10 +209,12 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let vc = DetailViewController()
-        //vc.selectedFood = foods[indexPath.row]
+        
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
 
+//creating one cell in the tableView
 class MyCellView : UITableViewCell {
 
 let baseView : UIView = {
@@ -271,24 +226,25 @@ let baseView : UIView = {
     return view
 }()
 
-    
+    //creating the imageView where each food image should load into
     let myImage : UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         return image
     }()
     
-    
+
+//creating the label where each food's name should load into
 let titleLabel : UILabel = {
     let label1 = UILabel()
     label1.translatesAutoresizingMaskIntoConstraints = false
     label1.font = .systemFont(ofSize: 18, weight: .bold)
-    label1.textColor = .red
+    label1.textColor = .black
     return label1
 }()
 
 
-
+//creating the viewHolder in which imageView and label is kept
 let contentHolder : UIStackView = {
     let stack = UIStackView()
     stack.axis = .horizontal
@@ -299,8 +255,8 @@ let contentHolder : UIStackView = {
 
 override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    layComponent()
-    //setupConstraints()
+    layComponent() //calling layComponent function
+    setupConstraints() //calling setupConstraints function
 }
 
 required init?(coder: NSCoder){
@@ -308,25 +264,27 @@ required init?(coder: NSCoder){
 }
 
 
-
+//declaring layComponent function
 func layComponent(){
 
-    contentHolder.addArrangedSubview(myImage)
-    contentHolder.addArrangedSubview(titleLabel)
-    baseView.addSubview(contentHolder)
-    contentView.addSubview(baseView)
+    contentHolder.addArrangedSubview(myImage) //adds the imageView into the viewHolder
+    contentHolder.addArrangedSubview(titleLabel) //adds the label into the viewHolder
+    baseView.addSubview(contentHolder) //adds the viewHolder into the baseView
+    contentView.addSubview(baseView) //adds the baseView into the contentView
 }
 
-private func setupConstraints(){
     
+    //declaring setupConstraints function
+    private func setupConstraints(){
     
-    
-    baseView.snp.makeConstraints {make in
+        //creating constraints for baseView with SnapKit
+        baseView.snp.makeConstraints {make in
         make.leading.top.equalToSuperview().offset(20)
         make.trailing.bottom.equalToSuperview().offset(-20)
     }
     
-    myImage.snp.makeConstraints { make in
+        //creating constraints for imageView with SnapKit
+        myImage.snp.makeConstraints { make in
         make.height.equalTo(80)
         make.width.equalTo(80)
     }
