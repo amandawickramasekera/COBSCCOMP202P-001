@@ -110,7 +110,8 @@ class HomeViewController: UIViewController {
         if user != nil{
             
             self.btnLogout.setTitle("Logout", for: .normal)
-            self.btnLogout.setTitleColor(.systemGreen, for: .normal)
+            self.btnLogout.backgroundColor = .systemGreen
+            self.btnLogout.setTitleColor(.white, for: .normal)
             
             self.view.addSubview(btnLogout)
             

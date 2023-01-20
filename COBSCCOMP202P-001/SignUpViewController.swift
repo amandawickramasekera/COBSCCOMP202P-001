@@ -81,7 +81,8 @@ class SignUpViewController: UIViewController {
     //creating the login button which allows user to register
     let btnRegister: UIButton = {
         let btn = UIButton()
-        btn.setTitleColor(.systemGreen, for: .normal) //this line sets the color of the button text to green
+        btn.setTitleColor(.white, for: .normal) //this line sets the color of the button text to white
+        btn.backgroundColor = .systemGreen //this line sets the color of the button background to systemGreen
         btn.setTitle("Sign up", for: .normal) //this line sets the text that the button should display
         return btn
     }()
@@ -89,7 +90,8 @@ class SignUpViewController: UIViewController {
     //creating the login button which redirects the users who already have an account to the login screen
     let btnLog: UIButton = {
         let btn = UIButton()
-        btn.setTitleColor(.systemGreen, for: .normal) //this line sets the color of the button text to green
+        btn.setTitleColor(.white, for: .normal) //this line sets the color of the button text to white
+        btn.backgroundColor = .systemGreen //this line sets the color of the button background to systemGreen
         btn.setTitle("Already have an account? Sign in", for: .normal) //this line sets the text that the button should display
         return btn
     }()
@@ -117,7 +119,7 @@ class SignUpViewController: UIViewController {
         
         self.imgView.contentMode = .top
         
-        //the following lines of code is supposed to set position and width and height of the frames of the text fields
+        //the following lines of code is supposed to set position and width and height of the frames of the text fields but actually makes no difference
         nameText.frame = CGRect(x: 20, y: 60, width: 50, height: 50)
         emailText.frame = CGRect(x: 20, y: 120, width: 50, height: 50)
         pwText.frame = CGRect(x: 20, y: 180, width: 50, height: 50)

@@ -59,7 +59,8 @@ class ViewController: UIViewController {
     //creating the login button which allows user to log in
     let btnLogin: UIButton = {
         let btn = UIButton()
-        btn.setTitleColor(.systemGreen, for: .normal) //this line sets the color of the button text to green
+        btn.setTitleColor(.white, for: .normal) //this line sets the color of the button text to white
+        btn.backgroundColor = .systemGreen //this line sets the color of the button background to systemGreen
         btn.setTitle("Sign in", for: .normal) //this line sets the text that the button should display
         return btn
     }()
@@ -68,7 +69,8 @@ class ViewController: UIViewController {
     //creating the register button which redirects the new users to register screen
     let btnReg: UIButton = {
         let btn = UIButton()
-        btn.setTitleColor(.systemGreen, for: .normal) //this line sets the color of the button text to green
+        btn.setTitleColor(.white, for: .normal) //this line sets the color of the button text to white
+        btn.backgroundColor = .systemGreen //this line sets the color of the button background to systemGreen
         btn.setTitle("New User? Sign up", for: .normal) //this line sets the text that the button should display
         return btn
     }()
