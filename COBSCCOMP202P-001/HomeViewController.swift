@@ -78,7 +78,7 @@ class HomeViewController: UIViewController {
     //declaring setupUI function
     func setupUI(){
         
-        //following two lines add the image named 'fvorited' in assets into the btnFavorites. (This was done to make the UI look better)
+        //following two lines add the image named 'favorited' in assets into the btnFavorites. (This was done to make the UI look better)
         let btnFavImg = UIImage(named: "favorited")
         self.btnFavourites.setBackgroundImage(btnFavImg, for: .normal)
 
