@@ -10,7 +10,16 @@ import SnapKit
 import Kingfisher
 
 class BookmarksViewController: UIViewController {
-
+    
+    let label : UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.textAlignment = .center
+        lbl.text = "Your favorites"
+        lbl.font = .systemFont(ofSize: 20, weight: .regular)
+        return lbl
+    }()
+    
         let tableView : UITableView = {
                 let table = UITableView()
                 table.translatesAutoresizingMaskIntoConstraints = false
@@ -21,20 +30,30 @@ class BookmarksViewController: UIViewController {
                 super.viewDidLoad()
                 self.view.backgroundColor = .white
                 tableView.register(MyCellView.self, forCellReuseIdentifier: "cell")
+                view.addSubview(label)
                 view.addSubview(tableView)
                 setupConstraint()
             }
-            
             func setupConstraint() {
-                tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-                tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-                tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-                tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+                
+                label.snp.makeConstraints{make in
+                    make.top.equalToSuperview().offset(20)
+                    make.leading.equalToSuperview().offset(40)
+                    make.trailing.equalToSuperview().offset(-40)
+            
+                }
+                
+                tableView.snp.makeConstraints{make in
+                    make.top.equalTo(label.snp_bottomMargin).offset(20)
+                    make.leading.equalToSuperview().offset(40)
+                    make.trailing.equalToSuperview().offset(-40)
+            
+                }
             }
     
             }
             func tableView(_ tableView: UITableView, heightForRowAt indexpath: IndexPath) -> CGFloat {
-                return 130
+                return 4
             }
             
             func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){

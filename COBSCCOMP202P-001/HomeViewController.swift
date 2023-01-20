@@ -91,16 +91,16 @@ class HomeViewController: UIViewController {
         //the following part of code creates constrains for btnFavorites with the help of SnapKit
         btnFavourites.snp.makeConstraints{make in
             make.top.equalToSuperview().offset(30)
-            make.leading.equalToSuperview().offset(317)
-            make.trailing.equalToSuperview().offset(-20)
+            make.leading.equalToSuperview().offset(297)
+            make.trailing.equalToSuperview().offset(-40)
         }
         
     
         //the following part of code creates constrains for tableView with the help of SnapKit
         tableView.snp.makeConstraints{make in
             make.top.equalTo(btnFavourites.snp_bottomMargin).offset(20)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.leading.equalToSuperview().offset(40)
+            make.trailing.equalToSuperview().offset(-40)
         }
         
         
@@ -117,8 +117,9 @@ class HomeViewController: UIViewController {
             
             btnLogout.snp.makeConstraints{make in
                 make.top.equalTo(tableView.snp_bottomMargin).offset(20)
-                make.leading.equalToSuperview().offset(20)
-                make.trailing.equalToSuperview().offset(-20)
+                make.leading.equalToSuperview().offset(40)
+                make.trailing.equalToSuperview().offset(-40)
+                make.bottom.equalToSuperview().offset(-20)
             }
         }
     }
@@ -196,9 +197,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         let cell : MyCellView = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyCellView
-
-        cell.myImage.image = UIImage(named: "food1")
-        cell.titleLabel.text = "abc"
         
         return cell
 

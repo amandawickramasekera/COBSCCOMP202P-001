@@ -37,6 +37,11 @@ class DetailViewController: UIViewController {
         return label
     }()
     
+    let btnAddToFavs : UIButton = {
+       let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,24 +52,34 @@ class DetailViewController: UIViewController {
     }
     
     func setupConstraint(){
+        
         self.view.addSubview(image)
+        
         image.snp.makeConstraints{ make in
             make.top.equalToSuperview()
             make.height.equalTo(400)
             make.leading.trailing.equalToSuperview()
         }
+        
+        let btnFavImg = UIImage(named: "favorite")
+        self.btnAddToFavs.setBackgroundImage(btnFavImg, for: .normal)
+
         let holder = UIStackView(arrangedSubviews: [titleLabel, caloriesLabel, ingredientsLabel])
         holder.spacing = 10
         holder.axis = .vertical
         self.view.addSubview(holder)
+        self.view.addSubview(btnAddToFavs)
         
         holder.snp.makeConstraints{ make in
-            make.top.equalTo(image.snp_bottomMargin).offset(40)
+            make.top.equalTo(image.snp_topMargin).offset(10)
             make.leading.equalTo(view.snp_leadingMargin).offset(20)
             make.trailing.equalTo(view.snp_trailingMargin).offset(-20)
         }
+        btnAddToFavs.snp.makeConstraints{ make in
+            make.top.equalTo(holder.snp_bottomMargin).offset(10)
+            make.leading.equalTo(view.snp_leadingMargin).offset(150)
+            make.trailing.equalTo(view.snp_trailingMargin).offset(-150)
+        }
     }
-    
-   
 }
 

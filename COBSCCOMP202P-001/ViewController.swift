@@ -96,7 +96,7 @@ class ViewController: UIViewController {
         
         let viewHolder = UIStackView(arrangedSubviews: [label, emailText, pwText, btnLogin, btnReg]) //this line adds the subviews into the viewholder
         viewHolder.axis = .vertical //this line sets viewholder's axis to vertical (this means the subviews of the viewholder are set one after the other vertically)
-        viewHolder.spacing = 30 //this line sets a space between the subviews of the viewholder
+        viewHolder.spacing = 20 //this line sets a space between the subviews of the viewholder
         
         self.view.addSubview(imgView) //this line adds imgView to the main screen
         self.view.addSubview(viewHolder) //this line adds the viewHolder to the main screen
@@ -111,8 +111,8 @@ class ViewController: UIViewController {
         //the following part of code creates constrains for viewHolder with SnapKit
         viewHolder.snp.makeConstraints{make in
             make.top.equalTo(imgView.snp_bottomMargin).offset(30)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.leading.equalToSuperview().offset(40)
+            make.trailing.equalToSuperview().offset(-40)
         }
         
     }

@@ -128,7 +128,7 @@ class SignUpViewController: UIViewController {
         
         let viewHolder = UIStackView(arrangedSubviews: [label, nameText, emailText, pwText, cpwText, btnRegister, btnLog]) //this line adds the subviews into the viewholder
         viewHolder.axis = .vertical //this line sets viewholder's axis to vertical (this means the subviews of the viewholder are set one after the other vertically)
-        viewHolder.spacing = 15 //this line sets a space between the subviews of the viewholder
+        viewHolder.spacing = 20 //this line sets a space between the subviews of the viewholder
         
         
         self.view.addSubview(viewHolder) //this line adds viewHolder to the main screen
@@ -144,8 +144,8 @@ class SignUpViewController: UIViewController {
         //the following part of code creates constrains for viewHolder with the use of SnapKit
         viewHolder.snp.makeConstraints{make in
             make.top.equalTo(imgView.snp_bottomMargin).offset(30)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.leading.equalToSuperview().offset(40)
+            make.trailing.equalToSuperview().offset(-40)
         }
         
     }
