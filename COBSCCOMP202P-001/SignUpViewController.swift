@@ -117,8 +117,6 @@ class SignUpViewController: UIViewController {
     {
         self.imgView.image = UIImage(named: "food1") //this line adds the image named 'foodimg' in assets into the imageView
         
-        self.imgView.contentMode = .top
-        
         //the following lines of code is supposed to set position and width and height of the frames of the text fields but actually makes no difference
         nameText.frame = CGRect(x: 20, y: 60, width: 50, height: 50)
         emailText.frame = CGRect(x: 20, y: 120, width: 50, height: 50)

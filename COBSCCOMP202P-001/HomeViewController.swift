@@ -237,8 +237,8 @@ let baseView : UIView = {
 let titleLabel : UILabel = {
     let label1 = UILabel()
     label1.translatesAutoresizingMaskIntoConstraints = false
-    label1.font = .systemFont(ofSize: 18, weight: .bold)
-    label1.textColor = .black
+    label1.font = .systemFont(ofSize: 18, weight: .bold) //this line sets the font size of the label to 18 and font weight of the label to bold
+    label1.textColor = .black //this line sets the textColor of the label to black
     return label1
 }()
 
@@ -246,8 +246,8 @@ let titleLabel : UILabel = {
 //creating the viewHolder in which imageView and label is kept
 let contentHolder : UIStackView = {
     let stack = UIStackView()
-    stack.axis = .horizontal
-    stack.spacing = 20
+    stack.axis = .horizontal //this line sets viewholder's axis to horizontal (this means the subviews of the viewholder are set one after the other horizontal)
+    stack.spacing = 20 //this line sets a space between the subviews of the viewholder
     stack.translatesAutoresizingMaskIntoConstraints = false
     return stack
 }()
