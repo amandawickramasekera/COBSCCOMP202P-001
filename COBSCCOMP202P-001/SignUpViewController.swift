@@ -142,8 +142,8 @@ class SignUpViewController: UIViewController {
         //the following part of code creates constrains for viewHolder with the use of SnapKit
         viewHolder.snp.makeConstraints{make in
             make.top.equalTo(imgView.snp_bottomMargin).offset(30)
-            make.leading.equalToSuperview().offset(40)
-            make.trailing.equalToSuperview().offset(-40)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
         }
         
     }

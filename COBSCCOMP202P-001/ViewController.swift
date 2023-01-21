@@ -90,7 +90,7 @@ class ViewController: UIViewController {
     //declaring setupUI function
     func setupUI()
     {
-        self.imgView.image = UIImage(named: "foodimg") //this line adds the image named 'foodimg' in assets into the imageView
+        self.imgView.image = UIImage(named: "food") //this line adds the image named 'food' in assets into the imageView
         
         self.imgView.contentMode = .top
         
@@ -111,8 +111,8 @@ class ViewController: UIViewController {
         //the following part of code creates constrains for viewHolder with SnapKit
         viewHolder.snp.makeConstraints{make in
             make.top.equalTo(imgView.snp_bottomMargin).offset(30)
-            make.leading.equalToSuperview().offset(40)
-            make.trailing.equalToSuperview().offset(-40)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
         }
         
     }

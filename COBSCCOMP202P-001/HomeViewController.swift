@@ -91,8 +91,10 @@ class HomeViewController: UIViewController {
         //the following part of code creates constrains for btnFavorites with the help of SnapKit
         btnFavourites.snp.makeConstraints{make in
             make.top.equalToSuperview().offset(30)
-            make.leading.equalToSuperview().offset(297)
-            make.trailing.equalToSuperview().offset(-40)
+            make.leading.equalToSuperview().offset(290)
+            make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(40)
+            make.width.equalTo(40)
         }
         
     

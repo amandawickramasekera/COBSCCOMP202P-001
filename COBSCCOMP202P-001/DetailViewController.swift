@@ -96,8 +96,10 @@ class DetailViewController: UIViewController {
         //the following part of code creates constrains for btnAddToFavs with the use of SnapKit
         btnAddToFavs.snp.makeConstraints{ make in
             make.top.equalTo(holder.snp_bottomMargin).offset(10)
-            make.leading.equalTo(view.snp_leadingMargin).offset(150)
-            make.trailing.equalTo(view.snp_trailingMargin).offset(-150)
+            make.leading.equalToSuperview().offset(150)
+            make.trailing.equalToSuperview().offset(-150)
+            make.height.equalTo(40)
+            make.width.equalTo(40)
         }
     }
     
