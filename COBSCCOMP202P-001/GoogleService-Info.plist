@@ -30,7 +30,5 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:180461316888:ios:0148296d209157c35b8c6d</string>
-	<key>DATABASE_URL</key>
-	<string>https://food-n-nutrients-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>
