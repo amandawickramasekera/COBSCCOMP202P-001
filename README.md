@@ -1,6 +1,6 @@
 # COBSCCOMP202P-001
 
--please install pods before running.
+-please install pods and run the workspace.
 -test user credentials:
   email: amandawickramasekera2000@gmail.com
   password: abc123
