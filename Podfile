@@ -13,6 +13,7 @@ target 'COBSCCOMP202P-001' do
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
+pod 'Firebase/Analytics'
 
   target 'COBSCCOMP202P-001Tests' do
     inherit! :search_paths
