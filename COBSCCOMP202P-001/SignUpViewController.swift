@@ -215,8 +215,8 @@ class SignUpViewController: UIViewController {
         })
     
             //the following lines of code opens the HomeViewController
-            let vc = HomeViewController()
-            self.present(vc, animated: true, completion: nil)
+            navigationController?.pushViewController(HomeViewController(), animated: false)
+            
         }
        
     
@@ -226,7 +226,6 @@ class SignUpViewController: UIViewController {
     @objc func openSignIn()
     {
         //the following lines of code opens the ViewController where users who already have an account can log in
-        let vc = ViewController()
-        self.present(vc, animated: true, completion: nil)
-    }
+        navigationController?.pushViewController(ViewController(), animated: false)
+            }
 }

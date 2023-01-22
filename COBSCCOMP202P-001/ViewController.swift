@@ -104,7 +104,8 @@ class ViewController: UIViewController {
         
         //the following part of code creates constrains for imgView with SnapKit
         imgView.snp.makeConstraints{make in
-            make.top.leading.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(75)
+            make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
         }
         
@@ -144,8 +145,9 @@ class ViewController: UIViewController {
                 self.present(alert, animated: true)
                 return
             } else{
-                let vc = HomeViewController()
-                self.present(vc, animated: true, completion: nil)
+                
+                self.navigationController?.pushViewController(HomeViewController(), animated: false)
+                
             }
         })
     }
@@ -154,8 +156,8 @@ class ViewController: UIViewController {
     @objc func openSignUp()
     {
         //the following lines of code opens the SignUpViewController where the new users can register
-        let vc = SignUpViewController()
-        self.present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(SignUpViewController(), animated: false)
+        
     }
 }
 

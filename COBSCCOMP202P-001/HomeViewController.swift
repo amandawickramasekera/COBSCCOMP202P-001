@@ -108,7 +108,7 @@ class HomeViewController: UIViewController {
         
         //the following part of code creates constrains for btnFavorites with the help of SnapKit
         btnFavourites.snp.makeConstraints{make in
-            make.top.equalToSuperview().offset(30)
+            make.top.equalToSuperview().offset(70)
             make.leading.equalToSuperview().offset(290)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(40)
@@ -146,17 +146,15 @@ class HomeViewController: UIViewController {
         
         self.view.addSubview(btnFavourites) //this line adds btnFavorites to the main screen
         self.view.addSubview(tableView) //this line adds the tableView to the main screen
-    
-        
+
         
         //the following part of code creates constrains for btnFavorites with the help of SnapKit
         btnFavourites.snp.makeConstraints{make in
-            make.top.equalToSuperview().offset(30)
+            make.top.equalToSuperview().offset(70)
             make.leading.equalToSuperview().offset(290)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(40)
         }
-        
     
         //the following part of code creates constrains for tableView with the help of SnapKit
         tableView.snp.makeConstraints{make in
@@ -177,13 +175,13 @@ class HomeViewController: UIViewController {
         //the following part of code opens the BookmarksViewController which shows the food user has added to favorites if they are already logged in and if not, it opens the ViewController on which the user can log in to the application
         if user != nil
         {
-            let vc = BookmarksViewController()
-            self.present(vc, animated: true, completion: nil)
+            
+            navigationController?.pushViewController(BookmarksViewController(), animated: false)
             
         }
         else{
-            let vc = ViewController()
-            self.present(vc, animated: true, completion: nil)
+            navigationController?.pushViewController(ViewController(), animated: false)
+            
             
         }
     }
@@ -194,8 +192,8 @@ class HomeViewController: UIViewController {
         //following lines of code tries to log the user out and load the HomeViewController again (because the logout button should not be visible when user is logged out) and if an exception occured, an alert is shown to the user
         do{
             try FirebaseAuth.Auth.auth().signOut()
-            let vc = HomeViewController()
-            self.present(vc, animated: true, completion: nil)
+            navigationController?.pushViewController(ViewController(), animated: false)
+            
         }
         catch{
         
@@ -261,7 +259,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         vc.food = food.foodName!
         vc.calories = food.calories!
         vc.ingredients = food.ingredients!
-        self.present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: false)
+        
     }
     
 //creating one cell in the tableView

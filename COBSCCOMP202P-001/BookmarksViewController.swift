@@ -26,7 +26,7 @@ class BookmarksViewController: UIViewController {
     let label : UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.textAlignment = .center //this line aligns the label to center
+        lbl.textAlignment = .left //this line aligns the label to left
         lbl.text = "Your favorites" //this line sets the text displayed in the label
         lbl.font = .systemFont(ofSize: 20, weight: .regular) //this line sets the font size and font weight
         lbl.textColor = .systemGreen
@@ -76,7 +76,7 @@ class BookmarksViewController: UIViewController {
                 
                 //the following part of code creates constrains for label with the use of SnapKit
                 label.snp.makeConstraints{make in
-                    make.top.equalToSuperview().offset(20)
+                    make.top.equalToSuperview().offset(70)
                     make.leading.equalToSuperview().offset(20)
                     make.trailing.equalToSuperview().offset(-20)
             

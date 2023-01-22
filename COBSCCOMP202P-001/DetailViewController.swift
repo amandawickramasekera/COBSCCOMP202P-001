@@ -130,8 +130,8 @@ class DetailViewController: UIViewController {
         }
         else{
             
-            let vc = ViewController()
-            self.present(vc, animated: true, completion: nil)
+            navigationController?.pushViewController(ViewController(), animated: false)
+            
         }
     }
 }
