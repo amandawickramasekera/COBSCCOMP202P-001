@@ -51,7 +51,7 @@ class DetailViewController: UIViewController {
     let ingredientsLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 15, weight: .regular) //this line sets the font size of the label to 15 and font weight of the label to regular
+        label.font = .systemFont(ofSize: 11, weight: .regular) //this line sets the font size of the label to 11 and font weight of the label to regular
         return label
     }()
     
@@ -94,7 +94,7 @@ class DetailViewController: UIViewController {
         self.btnAddToFavs.setBackgroundImage(btnFavImg, for: .normal)
 
         let holder = UIStackView(arrangedSubviews: [titleLabel, caloriesLabel, ingredientsLabel]) //this line adds the subviews into the viewholder
-        holder.spacing = 10 //this line sets a space between the subviews of the viewholder
+        holder.spacing = 20 //this line sets a space between the subviews of the viewholder
         holder.axis = .vertical //this line sets viewholder's axis to vertical (this means the subviews of the viewholder are set one after the other vertically)
         self.view.addSubview(holder) //this line adds view holder to the main screen
         self.view.addSubview(btnAddToFavs) //this line adds btnAddToFavs to the main screen
@@ -108,7 +108,7 @@ class DetailViewController: UIViewController {
         
         //the following part of code creates constrains for btnAddToFavs with the use of SnapKit
         btnAddToFavs.snp.makeConstraints{ make in
-            make.top.equalTo(holder.snp_bottomMargin).offset(10)
+            make.top.equalTo(holder.snp_bottomMargin).offset(20)
             make.leading.equalToSuperview().offset(150)
             make.trailing.equalToSuperview().offset(-150)
             make.height.equalTo(40)
