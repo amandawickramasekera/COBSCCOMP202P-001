@@ -13,6 +13,15 @@ import FirebaseDatabase //this line imports Firebase Database where we store det
 
 class DetailViewController: UIViewController {
     
+    var ref: DatabaseReference?
+
+    
+    var img = UIImage()
+    var food = ""
+    var calories = 0
+    var ingredients = ""
+    
+    
     //creating the imageView which shows the image of the selected food
     let image : UIImageView = {
         let imageView = UIImageView()
@@ -26,6 +35,7 @@ class DetailViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 18, weight: .bold) //this line sets the font size of the label to 18 and font wight of the label to bold
+        label.textColor = .systemGreen
         return label
     }()
     
@@ -41,7 +51,7 @@ class DetailViewController: UIViewController {
     let ingredientsLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12, weight: .regular) //this line sets the font size of the label to 12 and font weight of the label to regular
+        label.font = .systemFont(ofSize: 15, weight: .regular) //this line sets the font size of the label to 15 and font weight of the label to regular
         return label
     }()
     
@@ -57,10 +67,13 @@ class DetailViewController: UIViewController {
         
         self.view.backgroundColor = .white //this line makes the screen white in color
         
+        titleLabel.text = food
+        caloriesLabel.text = "Number of caleries: "+String(calories)
+        ingredientsLabel.text = "Ingredients: "+ingredients
+        
         setupConstraint() //calling setupConstraint function
         
         btnAddToFavs.addTarget(self, action: #selector(addToFavs), for: .touchUpInside) //this line calls the addToFavs function whenever user clicks on btnAddToFavs
-        
     }
     
     //declaring setupConstraint function
@@ -106,7 +119,20 @@ class DetailViewController: UIViewController {
     //declaring addToFavs function
     @objc func addToFavs()
     {
-        
+        let user = FirebaseAuth.Auth.auth().currentUser
+        if user != nil{
+            ref = FirebaseDatabase.Database.database().reference()
+            ref?.child("Users").child(user!.uid).child("Favorites").child(food).setValue(food)
+            
+            let btnFavedImg = UIImage(named: "favorited")
+            self.btnAddToFavs.setBackgroundImage(btnFavedImg, for: .normal)
+
+        }
+        else{
+            
+            let vc = ViewController()
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 }
 

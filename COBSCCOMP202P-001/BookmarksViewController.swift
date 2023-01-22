@@ -8,8 +8,19 @@
 import UIKit //this line imports UIKit with which we create UI components
 import SnapKit //this line imports SnapKit with which we create constraints
 import Kingfisher //this line imports Kingfisher which is used to cache images that we retrieve
+import FirebaseDatabase //this line imports Firebase Database where we store details of food and also the user details like user's name and which food the user has added to favorites
+import FirebaseAuth //this line imports Firebase Auth which we use to register and login users
+
 
 class BookmarksViewController: UIViewController {
+    
+    //creating favList array
+    var favList = [String] ()
+    
+    //creating database reference variable called 'ref'
+    var ref: DatabaseReference?
+    var databaseHandle: DatabaseHandle?
+    
     
     //creating the label which displays the text 'Your favorites'
     let label : UILabel = {
@@ -18,6 +29,7 @@ class BookmarksViewController: UIViewController {
         lbl.textAlignment = .center //this line aligns the label to center
         lbl.text = "Your favorites" //this line sets the text displayed in the label
         lbl.font = .systemFont(ofSize: 20, weight: .regular) //this line sets the font size and font weight
+        lbl.textColor = .systemGreen
         return lbl
     }()
     
@@ -36,6 +48,27 @@ class BookmarksViewController: UIViewController {
                 view.addSubview(tableView) //this line adds the tableView to the main screen
                 
                 setupConstraint() //calling setupConstraint function
+                
+                tableView.delegate = self
+                tableView.dataSource = self
+                
+                let user = FirebaseAuth.Auth.auth().currentUser
+            
+                //initializing the ref variable
+                ref = FirebaseDatabase.Database.database().reference()
+                
+                databaseHandle = ref?.child("Users").child(user!.uid).child("Favorites").observe(.childAdded, with: {(snapshot) in
+                    
+                    let fav = snapshot.value
+                    
+                    if let actualFav = fav{
+                        
+                        self.favList.append(actualFav as! String)
+                        
+                        self.tableView.reloadData()
+                        
+                    }
+                })
             }
     
             //declaring setupConstraint function
@@ -44,30 +77,50 @@ class BookmarksViewController: UIViewController {
                 //the following part of code creates constrains for label with the use of SnapKit
                 label.snp.makeConstraints{make in
                     make.top.equalToSuperview().offset(20)
-                    make.leading.equalToSuperview().offset(40)
-                    make.trailing.equalToSuperview().offset(-40)
+                    make.leading.equalToSuperview().offset(20)
+                    make.trailing.equalToSuperview().offset(-20)
             
                 }
                 
                 //the following part of code creates constrains for tableView with the use of SnapKit
                 tableView.snp.makeConstraints{make in
                     make.top.equalTo(label.snp_bottomMargin).offset(20)
-                    make.leading.equalToSuperview().offset(40)
-                    make.trailing.equalToSuperview().offset(-40)
+                    make.leading.equalToSuperview().offset(20)
+                    make.trailing.bottom.equalToSuperview().offset(-20)
             
                 }
             }
+}
     
-            }
-            func tableView(_ tableView: UITableView, heightForRowAt indexpath: IndexPath) -> CGFloat {
-                return 4
-            }
-            
-            func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-                
-            }
-            
+    extension BookmarksViewController: UITableViewDataSource, UITableViewDelegate {
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return favList.count
+        }
         
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+           
+            let cell : MyCellView = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyCellView
+                
+            
+            cell.titleLabel.text = favList[indexPath.row]
+        
+            return cell
+
+
+        }
+    
+    
+            
+            func tableView(_ tableView: UITableView, heightForRowAt indexpath: IndexPath) -> CGFloat {
+                return 130
+            }
+                    
+
+func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+    
+    
+    }
+}
 
     //creating one cell in the tableView
     class MyCellView : UITableViewCell{
@@ -86,27 +139,10 @@ class BookmarksViewController: UIViewController {
             let label1 = UILabel()
             label1.translatesAutoresizingMaskIntoConstraints = false
             label1.font = .systemFont(ofSize: 18, weight: .bold) //this line sets the font size of the label to 18 and font weight of the label to bold
-            label1.textColor = .systemGreen //this line sets the text color of the label to systemGreen
+            label1.textColor = .black //this line sets the text color of the label to black
             return label1
         }()
         
-        //creating the label where each favorite food's number of calories should load into
-        let caloriesLabel : UILabel = {
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.font = .systemFont(ofSize: 15, weight: .light)
-            label.textColor = .black
-            return label
-        }()
-        
-        //creating the label where each favorite food's ingredients should load into
-        let ingredientsLabel : UILabel = {
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.font = .systemFont(ofSize: 15, weight: .light) //this line sets the font size of the label to 15 and font weight of the label to light
-            label.textColor = .black //this line sets the text color of the label to black
-            return label
-        }()
         
         //creating the imageView where each favorite food's image should load into
         let foodImage : UIImageView = {
@@ -115,16 +151,7 @@ class BookmarksViewController: UIViewController {
             return image
         }()
         
-        //creating a viewHolder to keep labels inside
-        let labelHolder : UIStackView = {
-            let stack = UIStackView()
-            stack.axis = .vertical //this line sets viewholder's axis to vertical (this means the subviews of the viewholder are set one after the other vertically)
-            stack.spacing = 20 //this line sets a space between the subviews of the viewholder
-            stack.translatesAutoresizingMaskIntoConstraints = false
-            return stack
-        }()
-        
-        //creating a viewHolder to keep the labelHolder and imageView inside
+        //creating a viewHolder to keep the titleLabel and imageView inside
         let contentHolder : UIStackView = {
             let stack = UIStackView()
             stack.axis = .horizontal //this line sets viewholder's axis to horizontal (this means the subviews of the viewholder are set one after the other horizontally)
@@ -148,14 +175,10 @@ class BookmarksViewController: UIViewController {
         //declaring layComponent function
         func layComponent(){
             
-            //following three lines add each label into the labelHolder
-            labelHolder.addArrangedSubview(titleLabel)
-            labelHolder.addArrangedSubview(caloriesLabel)
-            labelHolder.addArrangedSubview(ingredientsLabel)
             
             //following two lines add foodImage and labelHolder into contentHolder
             contentHolder.addArrangedSubview(foodImage)
-            contentHolder.addArrangedSubview(labelHolder)
+            contentHolder.addArrangedSubview(titleLabel)
             
             baseView.addSubview(contentHolder) //this line adds contentHolder into baseView
             
@@ -178,6 +201,4 @@ class BookmarksViewController: UIViewController {
             }
             
         }
-    
-
-}
+    }

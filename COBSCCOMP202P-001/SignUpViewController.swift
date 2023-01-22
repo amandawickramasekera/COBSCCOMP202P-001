@@ -214,8 +214,8 @@ class SignUpViewController: UIViewController {
             }
         })
     
-            //the following lines of code opens the BookmarksViewController where users can view the foods they have added to favorites
-            let vc = BookmarksViewController()
+            //the following lines of code opens the HomeViewController
+            let vc = HomeViewController()
             self.present(vc, animated: true, completion: nil)
         }
        

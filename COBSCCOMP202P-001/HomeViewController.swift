@@ -15,10 +15,9 @@ class HomeViewController: UIViewController {
     
     //creating database reference variable called 'ref'
     var ref: DatabaseReference?
-    var databaseHandle: DatabaseHandle?
     
-    //creating foods array
-    var foods = [String] ()
+    //creating foodList array
+    var foodList = [FoodModel] ()
     
     //creating btnFavorites which takes user to the favorites where the user can view the food user has added to favorites
     let btnFavourites : UIButton = {
@@ -44,8 +43,17 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white //this line makes the screen white in color
-        setupUI() //calling setupUI function
+        
+        let user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
+        
+        if user != nil{
 
+        setupUIWithBtnLogout() //calling setupUI function with logout button
+            
+        }
+        else{
+            setupUI() //calling setupUI function without logout button
+        }
         
         btnFavourites.addTarget(self, action: #selector(favoritesClicked), for: .touchUpInside) //this line calls the favoritesClicked function whenever user clicks on btnFavorites
         
@@ -61,22 +69,32 @@ class HomeViewController: UIViewController {
         //initializing the ref variable
         ref = FirebaseDatabase.Database.database().reference()
         
-        //following part of code is supposed to food data to the tableView. However this does not work.
-        databaseHandle = ref?.child("Foods").observe(.childAdded, with: {(snapshot) in
-            
-            let food = snapshot.value as? String
-            
-            if let actualFood = food {
-                self.foods.append(actualFood)
-                
+        ref?.child("Foods").observe(DataEventType.value, with: {(snapshot) in
+            if snapshot.childrenCount > 0
+            {
+                self.foodList.removeAll()
+                for foods in snapshot.children.allObjects as! [DataSnapshot]
+                {
+                    let foodObject = foods.value as? [String: AnyObject]
+                    
+                    let calories = foodObject?["Calories"]
+                    let foodName = foodObject?["Food"]
+                    let ingredients = foodObject?["Ingredients"]
+                    
+                    let food = FoodModel(calories: calories as!
+                        Int, foodName: foodName as! String, ingredients: ingredients as! String)
+                    
+                    self.foodList.append(food)
+                }
                 self.tableView.reloadData()
             }
-            
         })
+        
     }
     
-    //declaring setupUI function
-    func setupUI(){
+    
+    func setupUIWithBtnLogout()
+    {
         
         //following two lines add the image named 'favorited' in assets into the btnFavorites. (This was done to make the UI look better)
         let btnFavImg = UIImage(named: "favorited")
@@ -103,12 +121,6 @@ class HomeViewController: UIViewController {
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
         }
-        
-        
-        let user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
-        
-        //the following part of code sets title and title color and creates constrains for btnLogin with the help of SnapKit if the current user inside the user varible is not null (if condition is used to check if the user is null because we do not need to show the logout button if the user has not logged in yet)
-        if user != nil{
             
             self.btnLogout.setTitle("Logout", for: .normal)
             self.btnLogout.backgroundColor = .systemGreen
@@ -121,10 +133,39 @@ class HomeViewController: UIViewController {
                 make.leading.equalToSuperview().offset(20)
                 make.trailing.equalToSuperview().offset(-20)
                 make.bottom.equalToSuperview().offset(-20)
-            }
+            
         }
     }
+    //declaring setupUI function
+    func setupUI(){
+        
+        //following two lines add the image named 'favorited' in assets into the btnFavorites. (This was done to make the UI look better)
+        let btnFavImg = UIImage(named: "favorited")
+        self.btnFavourites.setBackgroundImage(btnFavImg, for: .normal)
+
+        
+        self.view.addSubview(btnFavourites) //this line adds btnFavorites to the main screen
+        self.view.addSubview(tableView) //this line adds the tableView to the main screen
     
+        
+        
+        //the following part of code creates constrains for btnFavorites with the help of SnapKit
+        btnFavourites.snp.makeConstraints{make in
+            make.top.equalToSuperview().offset(30)
+            make.leading.equalToSuperview().offset(290)
+            make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(40)
+        }
+        
+    
+        //the following part of code creates constrains for tableView with the help of SnapKit
+        tableView.snp.makeConstraints{make in
+            make.top.equalTo(btnFavourites.snp_bottomMargin).offset(20)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.bottom.equalToSuperview().offset(-20)
+        }
+        
+    }
     
     //declaring favoritesClicked function
     @objc func favoritesClicked()
@@ -191,28 +232,38 @@ class FoodCell : UICollectionViewCell {
 
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return foodList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         let cell : MyCellView = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyCellView
         
+        let food: FoodModel
+        
+        food = foodList[indexPath.row]
+        
+        cell.titleLabel.text = food.foodName
+                
         return cell
 
 
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexpath: IndexPath) -> CGFloat {
-        return 4
+        return 130
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
-        let vc = DetailViewController()
         
-        self.navigationController?.pushViewController(vc, animated: true)
+        let vc = DetailViewController()
+        let food : FoodModel
+        food = foodList[indexPath.row]
+        vc.food = food.foodName!
+        vc.calories = food.calories!
+        vc.ingredients = food.ingredients!
+        self.present(vc, animated: true, completion: nil)
     }
     
-
 //creating one cell in the tableView
 class MyCellView : UITableViewCell {
 

@@ -136,7 +136,7 @@ class ViewController: UIViewController {
             return
         }
         
-        //following part of code logs the user in and redirects the user to bookmarks screen where the user can see the food which are added to favorites if there is no error in logging in. If there is an error in logging in an alert will be displayed to the user
+        //following part of code logs the user in and redirects the user to home screen if there is no error in logging in. If there is an error in logging in an alert will be displayed to the user
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: pw, completion: {result, error in
             if error != nil{
                 let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
@@ -144,7 +144,7 @@ class ViewController: UIViewController {
                 self.present(alert, animated: true)
                 return
             } else{
-                let vc = BookmarksViewController()
+                let vc = HomeViewController()
                 self.present(vc, animated: true, completion: nil)
             }
         })
