@@ -94,15 +94,14 @@ class HomeViewController: UIViewController {
             make.leading.equalToSuperview().offset(290)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(40)
-            make.width.equalTo(40)
         }
         
     
         //the following part of code creates constrains for tableView with the help of SnapKit
         tableView.snp.makeConstraints{make in
             make.top.equalTo(btnFavourites.snp_bottomMargin).offset(20)
-            make.leading.equalToSuperview().offset(40)
-            make.trailing.equalToSuperview().offset(-40)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
         }
         
         
@@ -119,8 +118,8 @@ class HomeViewController: UIViewController {
             
             btnLogout.snp.makeConstraints{make in
                 make.top.equalTo(tableView.snp_bottomMargin).offset(20)
-                make.leading.equalToSuperview().offset(40)
-                make.trailing.equalToSuperview().offset(-40)
+                make.leading.equalToSuperview().offset(20)
+                make.trailing.equalToSuperview().offset(-20)
                 make.bottom.equalToSuperview().offset(-20)
             }
         }
@@ -147,7 +146,6 @@ class HomeViewController: UIViewController {
             
         }
     }
-    
     
     //declaring logout function
     @objc func logout()
