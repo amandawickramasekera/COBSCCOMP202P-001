@@ -146,6 +146,9 @@ class ViewController: UIViewController {
                 return
             } else{
                 
+                self.emailText.text = ""
+                self.pwText.text = ""
+                
                 self.navigationController?.pushViewController(HomeViewController(), animated: false)
                 
             }

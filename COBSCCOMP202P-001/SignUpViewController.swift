@@ -135,7 +135,8 @@ class SignUpViewController: UIViewController {
         
         //the following part of code creates constrains for imgView with the use of SnapKit
         imgView.snp.makeConstraints{make in
-            make.top.leading.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(75)
+            make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
         }
         
@@ -214,6 +215,12 @@ class SignUpViewController: UIViewController {
             }
         })
     
+            self.nameText.text = ""
+            self.emailText.text = ""
+            self.pwText.text = ""
+            self.cpwText.text = ""
+            
+            
             //the following lines of code opens the HomeViewController
             navigationController?.pushViewController(HomeViewController(), animated: false)
             

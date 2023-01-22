@@ -192,7 +192,7 @@ class HomeViewController: UIViewController {
         //following lines of code tries to log the user out and load the HomeViewController again (because the logout button should not be visible when user is logged out) and if an exception occured, an alert is shown to the user
         do{
             try FirebaseAuth.Auth.auth().signOut()
-            navigationController?.pushViewController(ViewController(), animated: false)
+            navigationController?.pushViewController(HomeViewController(), animated: false)
             
         }
         catch{
