@@ -10,9 +10,10 @@ target 'COBSCCOMP202P-001' do
 # Add the pods for the Firebase products you want to use in your app
 # For example, to use Firebase Authentication and Cloud Firestore
 
+pod 'Firebase/AnalyticsWithoutAdIdSupport'
 pod 'FirebaseAuth'
 pod 'FirebaseDatabase'
-
+pod 'FirebaseStorage'
 
   target 'COBSCCOMP202P-001Tests' do
     inherit! :search_paths

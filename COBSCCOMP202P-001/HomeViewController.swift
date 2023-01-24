@@ -10,8 +10,11 @@ import SnapKit //this line imports SnapKit with which we create constraints
 import FirebaseAuth //this line imports Firebase Auth which we use to register and login users
 import FirebaseDatabase //this line imports Firebase Database where we store details of food and also the user details like user's name and which food the user has added to favorites
 import Kingfisher //this line imports Kingfisher which is used to cache images that we retrieve
+import FirebaseStorage
 
 class HomeViewController: UIViewController {
+    
+    let storage = Storage.storage().reference()
     
     //creating database reference variable called 'ref'
     var ref: DatabaseReference?
@@ -85,9 +88,13 @@ class HomeViewController: UIViewController {
                         Int, foodName: foodName as! String, ingredients: ingredients as! String)
                     
                     self.foodList.append(food)
+                
+                        
                 }
                 self.tableView.reloadData()
+            
             }
+            
         })
         
     }
@@ -108,7 +115,7 @@ class HomeViewController: UIViewController {
         
         //the following part of code creates constrains for btnFavorites with the help of SnapKit
         btnFavourites.snp.makeConstraints{make in
-            make.top.equalToSuperview().offset(70)
+            make.top.equalToSuperview().offset(90)
             make.leading.equalToSuperview().offset(290)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(40)
@@ -150,7 +157,7 @@ class HomeViewController: UIViewController {
         
         //the following part of code creates constrains for btnFavorites with the help of SnapKit
         btnFavourites.snp.makeConstraints{make in
-            make.top.equalToSuperview().offset(70)
+            make.top.equalToSuperview().offset(90)
             make.leading.equalToSuperview().offset(290)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(40)
@@ -242,6 +249,22 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         food = foodList[indexPath.row]
         
         cell.titleLabel.text = food.foodName
+        
+        
+        let foodTitle = food.foodName as! String
+        
+        let path = self.storage.child("Food pics/"+foodTitle.lowercased()+".jpg")
+        
+        path.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            
+            if let error = error{
+                print(error.localizedDescription)
+            }
+            else{
+                cell.myImage.image = UIImage(data: data!)
+                
+            }
+        }
                 
         return cell
 

@@ -9,14 +9,14 @@ import UIKit //this line imports UIKit with which we create UI components
 import SnapKit //this line imports SnapKit with which we create constraints
 import FirebaseAuth //this line imports Firebase Auth which we use to register and login users
 import FirebaseDatabase //this line imports Firebase Database where we store details of food and also the user details like user's name and which food the user has added to favorites
-
+import FirebaseStorage
 
 class DetailViewController: UIViewController {
     
     var ref: DatabaseReference?
 
+    let storage = Storage.storage().reference()
     
-    var img = UIImage()
     var food = ""
     var calories = 0
     var ingredients = ""
@@ -26,7 +26,7 @@ class DetailViewController: UIViewController {
     let image : UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -74,6 +74,22 @@ class DetailViewController: UIViewController {
         setupConstraint() //calling setupConstraint function
         
         btnAddToFavs.addTarget(self, action: #selector(addToFavs), for: .touchUpInside) //this line calls the addToFavs function whenever user clicks on btnAddToFavs
+        
+        
+        let path = storage.child("Food pics/"+food.lowercased()+".jpg")
+        
+        path.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            
+            if let error = error{
+                print(error.localizedDescription)
+            }
+            else{
+                self.image.image = UIImage(data: data!)
+                
+            }
+            
+        }
+        
     }
     
     //declaring setupConstraint function
@@ -81,12 +97,7 @@ class DetailViewController: UIViewController {
         
         self.view.addSubview(image) //this line adds image int the main screen
         
-        //the following part of code creates constrains for image view with the use of SnapKit
-        image.snp.makeConstraints{ make in
-            make.top.equalToSuperview()
-            make.height.equalTo(400)
-            make.leading.trailing.equalToSuperview()
-        }
+        
         
         
         //following two lines add the image named 'favorite' in assets into the btnAddToFavs. (This was done to make the UI look better)
@@ -99,9 +110,22 @@ class DetailViewController: UIViewController {
         self.view.addSubview(holder) //this line adds view holder to the main screen
         self.view.addSubview(btnAddToFavs) //this line adds btnAddToFavs to the main screen
         
+        
+        //the following part of code creates constrains for image view with the use of SnapKit
+        image.snp.makeConstraints{ make in
+            make.top.equalToSuperview().offset(90)
+            make.height.equalTo(400)
+            make.width.equalTo(400)
+            make.leading.equalToSuperview().offset(5)
+            make.trailing.equalToSuperview().offset(-5)
+            make.bottom.equalTo(holder.snp_topMargin).offset(-20)
+        }
+        
+        
+        
         //the following part of code creates constrains for view holder with the use of SnapKit
         holder.snp.makeConstraints{ make in
-            make.top.equalTo(image.snp_topMargin).offset(10)
+            make.top.equalTo(image.snp_topMargin).offset(20)
             make.leading.equalTo(view.snp_leadingMargin).offset(20)
             make.trailing.equalTo(view.snp_trailingMargin).offset(-20)
         }

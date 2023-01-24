@@ -10,9 +10,11 @@ import SnapKit //this line imports SnapKit with which we create constraints
 import Kingfisher //this line imports Kingfisher which is used to cache images that we retrieve
 import FirebaseDatabase //this line imports Firebase Database where we store details of food and also the user details like user's name and which food the user has added to favorites
 import FirebaseAuth //this line imports Firebase Auth which we use to register and login users
-
+import FirebaseStorage
 
 class BookmarksViewController: UIViewController {
+    
+    let storage = Storage.storage().reference()
     
     //creating favList array
     var favList = [String] ()
@@ -76,7 +78,7 @@ class BookmarksViewController: UIViewController {
                 
                 //the following part of code creates constrains for label with the use of SnapKit
                 label.snp.makeConstraints{make in
-                    make.top.equalToSuperview().offset(70)
+                    make.top.equalToSuperview().offset(90)
                     make.leading.equalToSuperview().offset(20)
                     make.trailing.equalToSuperview().offset(-20)
             
@@ -103,7 +105,22 @@ class BookmarksViewController: UIViewController {
                 
             
             cell.titleLabel.text = favList[indexPath.row]
-        
+            
+            
+            let foodTitle = favList[indexPath.row]
+            
+            let path = self.storage.child("Food pics/"+foodTitle.lowercased()+".jpg")
+            
+            path.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                
+                if let error = error{
+                    print(error.localizedDescription)
+                }
+                else{
+                    cell.foodImage.image = UIImage(data: data!)
+                    
+                }
+            }
             return cell
 
 

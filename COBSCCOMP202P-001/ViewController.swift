@@ -104,7 +104,7 @@ class ViewController: UIViewController {
         
         //the following part of code creates constrains for imgView with SnapKit
         imgView.snp.makeConstraints{make in
-            make.top.equalToSuperview().offset(75)
+            make.top.equalToSuperview().offset(90)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
         }
