@@ -222,7 +222,7 @@ class SignUpViewController: UIViewController {
             
             
             //the following lines of code opens the HomeViewController
-            navigationController?.pushViewController(HomeViewController(), animated: false)
+            navigationController?.pushViewController(HomeViewController(), animated: true)
             
         }
        
@@ -233,6 +233,6 @@ class SignUpViewController: UIViewController {
     @objc func openSignIn()
     {
         //the following lines of code opens the ViewController where users who already have an account can log in
-        navigationController?.pushViewController(ViewController(), animated: false)
+        navigationController?.pushViewController(ViewController(), animated: true)
             }
 }

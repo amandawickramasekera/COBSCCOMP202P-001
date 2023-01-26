@@ -83,9 +83,10 @@ class HomeViewController: UIViewController {
                     let calories = foodObject?["Calories"]
                     let foodName = foodObject?["Food"]
                     let ingredients = foodObject?["Ingredients"]
+                    let nutrients = foodObject?["Nutrients"]
                     
                     let food = FoodModel(calories: calories as!
-                        Int, foodName: foodName as! String, ingredients: ingredients as! String)
+                                            Int, foodName: foodName as! String, ingredients: ingredients as! String, nutrients: nutrients as! String)
                     
                     self.foodList.append(food)
                 
@@ -182,11 +183,11 @@ class HomeViewController: UIViewController {
         if user != nil
         {
             
-            navigationController?.pushViewController(BookmarksViewController(), animated: false)
+            navigationController?.pushViewController(BookmarksViewController(), animated: true)
             
         }
         else{
-            navigationController?.pushViewController(ViewController(), animated: false)
+            navigationController?.pushViewController(ViewController(), animated: true)
             
             
         }
@@ -281,7 +282,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         vc.food = food.foodName!
         vc.calories = food.calories!
         vc.ingredients = food.ingredients!
-        navigationController?.pushViewController(vc, animated: false)
+        vc.nutrients = food.nutrients!
+        navigationController?.pushViewController(vc, animated: true)
         
     }
     

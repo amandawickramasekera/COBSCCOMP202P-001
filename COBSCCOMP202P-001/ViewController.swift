@@ -149,7 +149,7 @@ class ViewController: UIViewController {
                 self.emailText.text = ""
                 self.pwText.text = ""
                 
-                self.navigationController?.pushViewController(HomeViewController(), animated: false)
+                self.navigationController?.pushViewController(HomeViewController(), animated: true)
                 
             }
         })
@@ -159,7 +159,7 @@ class ViewController: UIViewController {
     @objc func openSignUp()
     {
         //the following lines of code opens the SignUpViewController where the new users can register
-        navigationController?.pushViewController(SignUpViewController(), animated: false)
+        navigationController?.pushViewController(SignUpViewController(), animated: true)
         
     }
 }

@@ -12,10 +12,12 @@ class FoodModel{
     var calories: Int?
     var foodName: String?
     var ingredients: String?
+    var nutrients: String?
     
-    init(calories: Int, foodName: String, ingredients: String) {
+    init(calories: Int, foodName: String, ingredients: String, nutrients: String) {
         self.calories = calories
         self.ingredients = ingredients
         self.foodName = foodName
+        self.nutrients = nutrients
     }
 }

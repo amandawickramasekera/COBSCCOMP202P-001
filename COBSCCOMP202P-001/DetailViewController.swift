@@ -20,7 +20,7 @@ class DetailViewController: UIViewController {
     var food = ""
     var calories = 0
     var ingredients = ""
-    
+    var nutrients = ""
     
     //creating the imageView which shows the image of the selected food
     let image : UIImageView = {
@@ -51,7 +51,15 @@ class DetailViewController: UIViewController {
     let ingredientsLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 11, weight: .regular) //this line sets the font size of the label to 11 and font weight of the label to regular
+        label.font = .systemFont(ofSize: 12, weight: .regular) //this line sets the font size of the label to 12 and font weight of the label to regular
+        return label
+    }()
+    
+    //creating the nutrientsLabel which shows the nutrients of the selected food
+    let nutrientsLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 12, weight: .regular) //this line sets the font size of the label to 12 and font weight of the label to regular
         return label
     }()
     
@@ -70,6 +78,7 @@ class DetailViewController: UIViewController {
         titleLabel.text = food
         caloriesLabel.text = "Number of caleries: "+String(calories)
         ingredientsLabel.text = "Ingredients: "+ingredients
+        nutrientsLabel.text = "Nutrients: "+nutrients
         
         setupConstraint() //calling setupConstraint function
         
@@ -104,7 +113,7 @@ class DetailViewController: UIViewController {
         let btnFavImg = UIImage(named: "favorite")
         self.btnAddToFavs.setBackgroundImage(btnFavImg, for: .normal)
 
-        let holder = UIStackView(arrangedSubviews: [titleLabel, caloriesLabel, ingredientsLabel]) //this line adds the subviews into the viewholder
+        let holder = UIStackView(arrangedSubviews: [titleLabel, caloriesLabel, nutrientsLabel, ingredientsLabel]) //this line adds the subviews into the viewholder
         holder.spacing = 20 //this line sets a space between the subviews of the viewholder
         holder.axis = .vertical //this line sets viewholder's axis to vertical (this means the subviews of the viewholder are set one after the other vertically)
         self.view.addSubview(holder) //this line adds view holder to the main screen
@@ -114,8 +123,8 @@ class DetailViewController: UIViewController {
         //the following part of code creates constrains for image view with the use of SnapKit
         image.snp.makeConstraints{ make in
             make.top.equalToSuperview().offset(90)
-            make.height.equalTo(400)
-            make.width.equalTo(400)
+            make.height.equalTo(350)
+            make.width.equalTo(350)
             make.leading.equalToSuperview().offset(5)
             make.trailing.equalToSuperview().offset(-5)
             make.bottom.equalTo(holder.snp_topMargin).offset(-20)
@@ -154,7 +163,7 @@ class DetailViewController: UIViewController {
         }
         else{
             
-            navigationController?.pushViewController(ViewController(), animated: false)
+            navigationController?.pushViewController(ViewController(), animated: true)
             
         }
     }
