@@ -146,9 +146,13 @@ class ViewController: UIViewController {
                 return
             } else{
                 
+                
+                //the following lines clears the textfields after signing in
                 self.emailText.text = ""
                 self.pwText.text = ""
                 
+                
+                //the following line opens the HomeViewController
                 self.navigationController?.pushViewController(HomeViewController(), animated: true)
                 
             }
@@ -158,7 +162,7 @@ class ViewController: UIViewController {
     //declaring openSignUp function
     @objc func openSignUp()
     {
-        //the following lines of code opens the SignUpViewController where the new users can register
+        //the following line opens the SignUpViewController where the new users can register
         navigationController?.pushViewController(SignUpViewController(), animated: true)
         
     }

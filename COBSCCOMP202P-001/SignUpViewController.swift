@@ -215,13 +215,14 @@ class SignUpViewController: UIViewController {
             }
         })
     
+            //the following lines clears the textfields after signing up the user
             self.nameText.text = ""
             self.emailText.text = ""
             self.pwText.text = ""
             self.cpwText.text = ""
             
             
-            //the following lines of code opens the HomeViewController
+            //the following line opens the HomeViewController
             navigationController?.pushViewController(HomeViewController(), animated: true)
             
         }
@@ -232,7 +233,7 @@ class SignUpViewController: UIViewController {
     //declaring openSignIn function
     @objc func openSignIn()
     {
-        //the following lines of code opens the ViewController where users who already have an account can log in
+        //the following line opens the ViewController where users who already have an account can log in
         navigationController?.pushViewController(ViewController(), animated: true)
             }
 }

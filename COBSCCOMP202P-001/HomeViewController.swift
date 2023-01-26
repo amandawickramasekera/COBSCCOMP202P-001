@@ -251,7 +251,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         cell.titleLabel.text = food.foodName
         
         
-        let foodTitle = food.foodName as! String
+        let foodTitle = food.foodName!
         
         let path = self.storage.child("Food pics/"+foodTitle.lowercased()+".jpg")
         
@@ -276,6 +276,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
+        //setting all the values for the detail view controller's variables before opening DetailViewController
         let vc = DetailViewController()
         let food : FoodModel
         food = foodList[indexPath.row]
@@ -283,6 +284,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         vc.calories = food.calories!
         vc.ingredients = food.ingredients!
         vc.nutrients = food.nutrients!
+        
+        //the following line opens the DetailViewController
         navigationController?.pushViewController(vc, animated: true)
         
     }
