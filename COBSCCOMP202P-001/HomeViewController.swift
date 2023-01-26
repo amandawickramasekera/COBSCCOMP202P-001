@@ -9,8 +9,7 @@ import UIKit //this line imports UIKit with which we create UI components
 import SnapKit //this line imports SnapKit with which we create constraints
 import FirebaseAuth //this line imports Firebase Auth which we use to register and login users
 import FirebaseDatabase //this line imports Firebase Database where we store details of food and also the user details like user's name and which food the user has added to favorites
-import Kingfisher //this line imports Kingfisher which is used to cache images that we retrieve
-import FirebaseStorage
+import FirebaseStorage //this line imports Firebase Storage from where we retrieve images of food
 
 class HomeViewController: UIViewController {
     
@@ -72,6 +71,7 @@ class HomeViewController: UIViewController {
         //initializing the ref variable
         ref = FirebaseDatabase.Database.database().reference()
         
+        //retirieving all the food data from Firebase Database
         ref?.child("Foods").observe(DataEventType.value, with: {(snapshot) in
             if snapshot.childrenCount > 0
             {
@@ -111,7 +111,6 @@ class HomeViewController: UIViewController {
         self.view.addSubview(btnFavourites) //this line adds btnFavorites to the main screen
         self.view.addSubview(tableView) //this line adds the tableView to the main screen
     
-        
         
         //the following part of code creates constrains for btnFavorites with the help of SnapKit
         btnFavourites.snp.makeConstraints{make in

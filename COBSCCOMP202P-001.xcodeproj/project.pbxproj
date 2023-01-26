@@ -21,7 +21,6 @@
 		5FDF89F0296FFE54006C8346 /* COBSCCOMP202P_001Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDF89EF296FFE54006C8346 /* COBSCCOMP202P_001Tests.swift */; };
 		5FDF89FB296FFE54006C8346 /* COBSCCOMP202P_001UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDF89FA296FFE54006C8346 /* COBSCCOMP202P_001UITests.swift */; };
 		5FDF8A0A29700791006C8346 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5FDF8A0929700791006C8346 /* SnapKit */; };
-		5FDF8A0D29700BE2006C8346 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5FDF8A0C29700BE2006C8346 /* Kingfisher */; };
 		C14AEF49962C0DB12C9701A0 /* Pods_COBSCCOMP202P_001_COBSCCOMP202P_001UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6A9524070F368716D593B7 /* Pods_COBSCCOMP202P_001_COBSCCOMP202P_001UITests.framework */; };
 		E1631BAB064C7F64B32011FF /* Pods_COBSCCOMP202P_001Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801B7F2ECDD3C7D1EC73E723 /* Pods_COBSCCOMP202P_001Tests.framework */; };
 		F1453F39D4757528062DBDAA /* Pods_COBSCCOMP202P_001.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E39420CB4F619807AB11436 /* Pods_COBSCCOMP202P_001.framework */; };
@@ -80,7 +79,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FDF8A0D29700BE2006C8346 /* Kingfisher in Frameworks */,
 				5FDF8A0A29700791006C8346 /* SnapKit in Frameworks */,
 				F1453F39D4757528062DBDAA /* Pods_COBSCCOMP202P_001.framework in Frameworks */,
 			);
@@ -207,7 +205,6 @@
 			name = "COBSCCOMP202P-001";
 			packageProductDependencies = (
 				5FDF8A0929700791006C8346 /* SnapKit */,
-				5FDF8A0C29700BE2006C8346 /* Kingfisher */,
 			);
 			productName = "COBSCCOMP202P-001";
 			productReference = 5FDF89D5296FFE50006C8346 /* COBSCCOMP202P-001.app */;
@@ -285,7 +282,6 @@
 			mainGroup = 5FDF89CC296FFE50006C8346;
 			packageReferences = (
 				5FDF8A0829700791006C8346 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				5FDF8A0B29700BE2006C8346 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 5FDF89D6296FFE50006C8346 /* Products */;
 			projectDirPath = "";
@@ -544,7 +540,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Debug;
 		};
@@ -597,7 +593,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -620,6 +616,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.amanda.COBSCCOMP202P-001";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -781,14 +778,6 @@
 				minimumVersion = 5.6.0;
 			};
 		};
-		5FDF8A0B29700BE2006C8346 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.5.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -796,11 +785,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5FDF8A0829700791006C8346 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		5FDF8A0C29700BE2006C8346 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5FDF8A0B29700BE2006C8346 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
