@@ -85,6 +85,7 @@ class DetailViewController: UIViewController {
         btnAddToFavs.addTarget(self, action: #selector(addToFavs), for: .touchUpInside) //this line calls the addToFavs function whenever user clicks on btnAddToFavs
         
         
+        //the following lines of code retrieve the image from Firebase Storage
         let path = storage.child("Food pics/"+food.lowercased()+".jpg")
         
         path.getData(maxSize: 1 * 1024 * 1024) { data, error in
@@ -152,6 +153,8 @@ class DetailViewController: UIViewController {
     //declaring addToFavs function
     @objc func addToFavs()
     {
+        
+        //following lines of code addes the food to favorites if the user is signed in, otherwise redirects the user to sign in screen
         let user = FirebaseAuth.Auth.auth().currentUser
         if user != nil{
             ref = FirebaseDatabase.Database.database().reference()
