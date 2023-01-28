@@ -1161,7 +1161,7 @@
 		079EB017FFDA9562CC7C4D2A7AE2A6B8 /* FIRAuthInterop.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRAuthInterop.h; path = FirebaseAuth/Interop/FIRAuthInterop.h; sourceTree = "<group>"; };
 		07B996ACA616F092074C18F3AA6FE4B0 /* FIRAuthAppCredential.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FIRAuthAppCredential.m; path = FirebaseAuth/Sources/SystemService/FIRAuthAppCredential.m; sourceTree = "<group>"; };
 		07F754363E12DF84AFA23DC0E7CD7782 /* FIRApp.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FIRApp.h; path = FirebaseCore/Sources/Public/FirebaseCore/FIRApp.h; sourceTree = "<group>"; };
-		082943012B27478B9BFC5D4B99E5CF62 /* Pods-COBSCCOMP202P-001 */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-COBSCCOMP202P-001"; path = Pods_COBSCCOMP202P_001.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		082943012B27478B9BFC5D4B99E5CF62 /* Pods_COBSCCOMP202P_001.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_COBSCCOMP202P_001.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		084DC8B070BB9B3CDD428452734C4EDD /* FCompoundWrite.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FCompoundWrite.m; path = FirebaseDatabase/Sources/Snapshot/FCompoundWrite.m; sourceTree = "<group>"; };
 		0901D47D07255B24E44D9D8760A48457 /* FIRStartMFAEnrollmentResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FIRStartMFAEnrollmentResponse.m; path = FirebaseAuth/Sources/Backend/RPC/MultiFactor/Enroll/FIRStartMFAEnrollmentResponse.m; sourceTree = "<group>"; };
 		090A659214C430C4AD9C70C8A2759D5A /* StorageReference.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StorageReference.swift; path = FirebaseStorage/Sources/StorageReference.swift; sourceTree = "<group>"; };
@@ -2814,7 +2814,7 @@
 				B43874C6CBB50E7134FBEC24BABFE14F /* GoogleUtilities */,
 				C1998E0D8085221AD87F89B614C10E52 /* GTMSessionFetcher */,
 				0A9F46A999C47653013D3AD854352507 /* leveldb-library */,
-				082943012B27478B9BFC5D4B99E5CF62 /* Pods-COBSCCOMP202P-001 */,
+				082943012B27478B9BFC5D4B99E5CF62 /* Pods_COBSCCOMP202P_001.framework */,
 				14EF0C05716D076A8D45B00C1D73B8C4 /* Pods-COBSCCOMP202P-001-COBSCCOMP202P-001UITests */,
 				8A216EED275CF48BF7B8BD62EA6E7C71 /* Pods-COBSCCOMP202P-001Tests */,
 				3347A1AB6546F0A3977529B8F199DC41 /* PromisesObjC */,
@@ -4109,7 +4109,7 @@
 			);
 			name = "Pods-COBSCCOMP202P-001";
 			productName = Pods_COBSCCOMP202P_001;
-			productReference = 082943012B27478B9BFC5D4B99E5CF62 /* Pods-COBSCCOMP202P-001 */;
+			productReference = 082943012B27478B9BFC5D4B99E5CF62 /* Pods_COBSCCOMP202P_001.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		736AF68F6527ACF6B4A4C54728824A1C /* FirebaseDatabase */ = {
