@@ -76,7 +76,7 @@ class DetailViewController: UIViewController {
         self.view.backgroundColor = .white //this line makes the screen white in color
         
         titleLabel.text = food
-        caloriesLabel.text = "Number of caleries: "+String(calories)
+        caloriesLabel.text = "Number of calories: "+String(calories)
         ingredientsLabel.text = "Ingredients: "+ingredients
         nutrientsLabel.text = "Nutrients: "+nutrients
         

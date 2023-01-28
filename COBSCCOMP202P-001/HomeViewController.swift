@@ -21,6 +21,8 @@ class HomeViewController: UIViewController {
     //creating foodList array
     var foodList = [FoodModel] ()
     
+    var user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
+    
     //creating btnFavorites which takes user to the favorites where the user can view the food user has added to favorites
     let btnFavourites : UIButton = {
         let btnFav = UIButton()
@@ -44,9 +46,10 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white //this line makes the screen white in color
-        
-        let user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
+
+        //view.backgroundColor = UIColor(patternImage: UIImage(named: "bg")!)
+
+       view.backgroundColor = .white //this line makes the screen white in color
         
         if user != nil{
 
@@ -55,6 +58,7 @@ class HomeViewController: UIViewController {
         }
         else{
             setupUI() //calling setupUI function without logout button
+            
         }
         
         btnFavourites.addTarget(self, action: #selector(favoritesClicked), for: .touchUpInside) //this line calls the favoritesClicked function whenever user clicks on btnFavorites
@@ -241,7 +245,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
+    
         let cell : MyCellView = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MyCellView
         
         let food: FoodModel

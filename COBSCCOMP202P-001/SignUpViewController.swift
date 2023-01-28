@@ -99,7 +99,7 @@ class SignUpViewController: UIViewController {
     //following line creates database variable and assigns Firebase database reference to it
     let database = Database.database().reference()
     
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -199,31 +199,41 @@ class SignUpViewController: UIViewController {
             }
             //if there is no error we can continue to store user's details like name in firebase realtime database
             else{
-            let user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
+                
+                let user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
+
     
-            if user != nil //checking if the user is not null
+                if user != nil //checking if the user is not null
             {
-                let userkey = user!.uid //creating a variable called userkey and storing the user's uid generated from FurebaseAuth in the userkey variable
+                    let userkey = user!.uid //creating a variable called userkey and storing the user's uid generated from FurebaseAuth in the userkey variable
                 
                 //the following part of code stores the user's name and uid inside the child node named after the user's uid, inside the parent node called 'Users'
                 let object: [String: Any] = [
                     "uid": userkey,
                     "name": name
                 ]
-                self.database.child("Users").child(userkey).setValue(object)
+                    self.database.child("Users").child(userkey).setValue(object)
+                    
+                    //the following lines clears the textfields after signing up the user
+                    self.nameText.text = ""
+                    self.emailText.text = ""
+                    self.pwText.text = ""
+                    self.cpwText.text = ""
+                    
+
+                    //the following line opens the HomeViewController
+                    self.navigationController?.pushViewController(HomeViewController(), animated: true)
             }
+                else{
+                    let alert = UIAlertController(title: "Error", message: "Something went wrong", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: {_ in}))
+                    self.present(alert, animated: true)
+                }
             }
+            
+            
         })
     
-            //the following lines clears the textfields after signing up the user
-            self.nameText.text = ""
-            self.emailText.text = ""
-            self.pwText.text = ""
-            self.cpwText.text = ""
-            
-            
-            //the following line opens the HomeViewController
-            navigationController?.pushViewController(HomeViewController(), animated: true)
             
         }
        
