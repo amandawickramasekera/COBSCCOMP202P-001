@@ -24,7 +24,7 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.textAlignment = .center //this line aligns the label to center
         label.text = "Sign up to continue" //this line sets the text displayed in the label
-        label.font = .systemFont(ofSize: 20, weight: .regular) //this line sets the font size and font weight
+        label.font = .systemFont(ofSize: 24, weight: .bold) //this line sets the font size and font weight
         return label
     }()
     
@@ -103,7 +103,9 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        view.backgroundColor = .white //this line makes the screen white in color
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "bg")!)
+        
+        //view.backgroundColor = .white //this line makes the screen white in color
         
         setupUI() //calling setupUI function
         
@@ -115,7 +117,7 @@ class SignUpViewController: UIViewController {
     //declaring setupUI function
     func setupUI()
     {
-        self.imgView.image = UIImage(named: "food1") //this line adds the image named 'foodimg' in assets into the imageView
+        self.imgView.image = UIImage(named: "food") //this line adds the image named 'food' in assets into the imageView
         
         //the following lines of code is supposed to set position and width and height of the frames of the text fields but actually makes no difference
         nameText.frame = CGRect(x: 20, y: 60, width: 50, height: 50)
@@ -135,6 +137,7 @@ class SignUpViewController: UIViewController {
         
         //the following part of code creates constrains for imgView with the use of SnapKit
         imgView.snp.makeConstraints{make in
+            make.height.equalTo(150)
             make.top.equalToSuperview().offset(90)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
@@ -210,7 +213,8 @@ class SignUpViewController: UIViewController {
                 //the following part of code stores the user's name and uid inside the child node named after the user's uid, inside the parent node called 'Users'
                 let object: [String: Any] = [
                     "uid": userkey,
-                    "name": name
+                    "name": name,
+                
                 ]
                     self.database.child("Users").child(userkey).setValue(object)
                     

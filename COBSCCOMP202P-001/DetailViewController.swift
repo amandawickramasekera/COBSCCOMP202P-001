@@ -12,10 +12,15 @@ import FirebaseDatabase //this line imports Firebase Database where we store det
 import FirebaseStorage //this line imports Firebase Storage from where we retrieve images of food
 
 class DetailViewController: UIViewController {
-    
-    var ref: DatabaseReference?
 
     let storage = Storage.storage().reference()
+    
+    let user = FirebaseAuth.Auth.auth().currentUser
+    
+    let ref = FirebaseDatabase.Database.database().reference()
+    
+    let btnFavImg = UIImage(named: "favorite")
+    let btnFavedImg = UIImage(named: "favorited")
     
     var food = ""
     var calories = 0
@@ -34,7 +39,7 @@ class DetailViewController: UIViewController {
     let titleLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 18, weight: .bold) //this line sets the font size of the label to 18 and font wight of the label to bold
+        label.font = .systemFont(ofSize: 20, weight: .bold) //this line sets the font size of the label to 20 and font wight of the label to bold
         label.textColor = .systemGreen
         return label
     }()
@@ -43,7 +48,7 @@ class DetailViewController: UIViewController {
     let caloriesLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 15, weight: .regular) //this line sets the font size of the label to 15 and font wight of the label to regular
+        label.font = .systemFont(ofSize: 16, weight: .regular) //this line sets the font size of the label to 15 and font wight of the label to regular
         return label
     }()
     
@@ -73,7 +78,9 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .white //this line makes the screen white in color
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "bg")!)
+        
+        //self.view.backgroundColor = .white //this line makes the screen white in color
         
         titleLabel.text = food
         caloriesLabel.text = "Number of calories: "+String(calories)
@@ -82,7 +89,7 @@ class DetailViewController: UIViewController {
         
         setupConstraint() //calling setupConstraint function
         
-        btnAddToFavs.addTarget(self, action: #selector(addToFavs), for: .touchUpInside) //this line calls the addToFavs function whenever user clicks on btnAddToFavs
+        btnAddToFavs.addTarget(self, action: #selector(addToOrRemoveFromFavs), for: .touchUpInside) //this line calls the addToFavs function whenever user clicks on btnAddToFavs
         
         
         //the following lines of code retrieve the image from Firebase Storage
@@ -107,13 +114,32 @@ class DetailViewController: UIViewController {
         
         self.view.addSubview(image) //this line adds image int the main screen
         
+    
+        if user != nil
+        {
+        
+            let favRef = ref.child("Users").child(user!.uid).child("favorites").child(food)
         
         
+            favRef.observe(.value, with: { snapshot in
         
-        //following two lines add the image named 'favorite' in assets into the btnAddToFavs. (This was done to make the UI look better)
-        let btnFavImg = UIImage(named: "favorite")
-        self.btnAddToFavs.setBackgroundImage(btnFavImg, for: .normal)
-
+            
+            if snapshot.exists() == true
+            {
+                self.btnAddToFavs.setBackgroundImage(self.btnFavedImg, for: .normal)
+            
+            }
+            else{
+                self.btnAddToFavs.setBackgroundImage(self.btnFavImg, for: .normal)
+            }
+        })
+        
+        }
+        else
+        {
+            self.btnAddToFavs.setBackgroundImage(btnFavImg, for: .normal)
+        }
+        
         let holder = UIStackView(arrangedSubviews: [titleLabel, caloriesLabel, nutrientsLabel, ingredientsLabel]) //this line adds the subviews into the viewholder
         holder.spacing = 20 //this line sets a space between the subviews of the viewholder
         holder.axis = .vertical //this line sets viewholder's axis to vertical (this means the subviews of the viewholder are set one after the other vertically)
@@ -143,27 +169,42 @@ class DetailViewController: UIViewController {
         //the following part of code creates constrains for btnAddToFavs with the use of SnapKit
         btnAddToFavs.snp.makeConstraints{ make in
             make.top.equalTo(holder.snp_bottomMargin).offset(20)
-            make.leading.equalToSuperview().offset(150)
-            make.trailing.equalToSuperview().offset(-150)
-            make.height.equalTo(40)
-            make.width.equalTo(40)
+            make.leading.equalToSuperview().offset(160)
+            make.trailing.equalToSuperview().offset(-160)
+            make.height.equalTo(50)
         }
     }
     
     //declaring addToFavs function
-    @objc func addToFavs()
+    @objc func addToOrRemoveFromFavs()
     {
         
         //following lines of code addes the food to favorites if the user is signed in, otherwise redirects the user to sign in screen
         let user = FirebaseAuth.Auth.auth().currentUser
         if user != nil{
-            ref = FirebaseDatabase.Database.database().reference()
-            ref?.child("Users").child(user!.uid).child("Favorites").child(food).setValue(food)
             
-            let btnFavedImg = UIImage(named: "favorited")
-            self.btnAddToFavs.setBackgroundImage(btnFavedImg, for: .normal)
-
-        }
+            let favRef = ref.child("Users").child(user!.uid).child("favorites").child(food)
+                
+           
+            if btnAddToFavs.backgroundImage(for: .normal) == btnFavImg
+            {
+                    
+                    favRef.setValue(food)
+                    
+                    btnAddToFavs.setBackgroundImage(btnFavedImg, for: .normal)
+                }
+                
+                else{
+                    
+                    favRef.removeValue()
+                    
+                    btnAddToFavs.setBackgroundImage(btnFavImg, for: .normal)
+                }
+            }
+            
+                      
+        
+        
         else{
             
             navigationController?.pushViewController(ViewController(), animated: true)

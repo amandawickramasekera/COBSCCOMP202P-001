@@ -24,7 +24,7 @@ class ViewController: UIViewController {
         let label = UILabel()
         label.textAlignment = .center //this line aligns the label to center
         label.text = "Sign in to continue" //this line sets the text displayed in the label
-        label.font = .systemFont(ofSize: 20, weight: .regular) //this line sets the font size and font weight
+        label.font = .systemFont(ofSize: 24, weight: .bold) //this line sets the font size and font weight
         return label
     }()
     
@@ -78,7 +78,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white //this line makes the screen white in color
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "bg")!)
+        
+        //view.backgroundColor = .white //this line makes the screen white in color
+        
         setupUI() //calling setupUI function
         
         btnLogin.addTarget(self, action: #selector(signIn), for: .touchUpInside) //this line calls the signIn function whenever user clicks on btnLogin
@@ -90,9 +93,9 @@ class ViewController: UIViewController {
     //declaring setupUI function
     func setupUI()
     {
-        self.imgView.image = UIImage(named: "food") //this line adds the image named 'food' in assets into the imageView
+        self.imgView.image = UIImage(named: "image") //this line adds the image named 'image' in assets into the imageView
         
-        self.imgView.contentMode = .top
+        self.imgView.contentMode = .scaleAspectFit
         
         let viewHolder = UIStackView(arrangedSubviews: [label, emailText, pwText, btnLogin, btnReg]) //this line adds the subviews into the viewholder
         viewHolder.axis = .vertical //this line sets viewholder's axis to vertical (this means the subviews of the viewholder are set one after the other vertically)
@@ -104,6 +107,7 @@ class ViewController: UIViewController {
         
         //the following part of code creates constrains for imgView with SnapKit
         imgView.snp.makeConstraints{make in
+            make.height.equalTo(200)
             make.top.equalToSuperview().offset(90)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)

@@ -29,8 +29,8 @@ class BookmarksViewController: UIViewController {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.textAlignment = .left //this line aligns the label to left
         lbl.text = "Your favorites" //this line sets the text displayed in the label
-        lbl.font = .systemFont(ofSize: 20, weight: .regular) //this line sets the font size and font weight
-        lbl.textColor = .systemGreen
+        lbl.font = .systemFont(ofSize: 20, weight: .light) //this line sets the font size and font weight
+        lbl.textColor = .black
         return lbl
     }()
     
@@ -43,7 +43,11 @@ class BookmarksViewController: UIViewController {
 
             override func viewDidLoad() {
                 super.viewDidLoad()
-                self.view.backgroundColor = .white //this line makes the screen white in color
+                
+                view.backgroundColor = UIColor(patternImage: UIImage(named: "bg")!)
+                
+                //self.view.backgroundColor = .white //this line makes the screen white in color
+                
                 tableView.register(MyCellView.self, forCellReuseIdentifier: "cell")
                 view.addSubview(label) //this line adds the label to the main screen
                 view.addSubview(tableView) //this line adds the tableView to the main screen
@@ -58,7 +62,7 @@ class BookmarksViewController: UIViewController {
                 //initializing the ref variable
                 ref = FirebaseDatabase.Database.database().reference()
                 
-                databaseHandle = ref?.child("Users").child(user!.uid).child("Favorites").observe(.childAdded, with: {(snapshot) in
+                databaseHandle = ref?.child("Users").child(user!.uid).child("favorites").observe(.childAdded, with: {(snapshot) in
                     
                     let fav = snapshot.value
                     
@@ -154,7 +158,7 @@ func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let titleLabel : UILabel = {
             let label1 = UILabel()
             label1.translatesAutoresizingMaskIntoConstraints = false
-            label1.font = .systemFont(ofSize: 18, weight: .bold) //this line sets the font size of the label to 18 and font weight of the label to bold
+            label1.font = .systemFont(ofSize: 20, weight: .bold) //this line sets the font size of the label to 20 and font weight of the label to bold
             label1.textColor = .black //this line sets the text color of the label to black
             return label1
         }()

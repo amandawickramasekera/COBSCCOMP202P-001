@@ -21,7 +21,14 @@ class HomeViewController: UIViewController {
     //creating foodList array
     var foodList = [FoodModel] ()
     
-    var user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
+    let user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
+    
+    
+    let userlabel : UILabel = {
+       let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        return lbl
+    }()
     
     //creating btnFavorites which takes user to the favorites where the user can view the food user has added to favorites
     let btnFavourites : UIButton = {
@@ -47,13 +54,13 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //view.backgroundColor = UIColor(patternImage: UIImage(named: "bg")!)
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "bg")!)
 
-       view.backgroundColor = .white //this line makes the screen white in color
+       //view.backgroundColor = .white //this line makes the screen white in color
         
         if user != nil{
 
-        setupUIWithBtnLogout() //calling setupUI function with logout button
+        setupUIWithBtnLogoutAndUserLabel() //calling setupUI function with logout button
             
         }
         else{
@@ -105,24 +112,47 @@ class HomeViewController: UIViewController {
     }
     
     
-    func setupUIWithBtnLogout()
+    func setupUIWithBtnLogoutAndUserLabel()
     {
+        
+        self.userlabel.textColor = .black
+        self.userlabel.font = .systemFont(ofSize: 20, weight: .light)
+        
+        ref = FirebaseDatabase.Database.database().reference()
+        
+
+        let handel = ref?.child("Users").child(user!.uid).child("name").observe(.value, with: { snapshot in
+            
+            
+            let name = snapshot.value as! String
+            self.userlabel.text = "Welcome, "+name+"!"
+            
+        })
+    
+        
         
         //following two lines add the image named 'favorited' in assets into the btnFavorites. (This was done to make the UI look better)
         let btnFavImg = UIImage(named: "favorited")
         self.btnFavourites.setBackgroundImage(btnFavImg, for: .normal)
 
+        self.view.addSubview(userlabel)
         
-        self.view.addSubview(btnFavourites) //this line adds btnFavorites to the main screen
+        self.view.addSubview(btnFavourites) //this line adds viewHolder to the main screen
         self.view.addSubview(tableView) //this line adds the tableView to the main screen
     
+        userlabel.snp.makeConstraints{make in
+            make.top.equalToSuperview().offset(90)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
+    
+        }
         
         //the following part of code creates constrains for btnFavorites with the help of SnapKit
         btnFavourites.snp.makeConstraints{make in
             make.top.equalToSuperview().offset(90)
-            make.leading.equalToSuperview().offset(290)
+            make.leading.equalToSuperview().offset(297)
             make.trailing.equalToSuperview().offset(-20)
-            make.height.equalTo(40)
+            make.height.equalTo(50)
         }
         
     
@@ -140,7 +170,7 @@ class HomeViewController: UIViewController {
             self.view.addSubview(btnLogout)
             
             btnLogout.snp.makeConstraints{make in
-                make.top.equalTo(tableView.snp_bottomMargin).offset(20)
+                make.top.equalTo(tableView.snp_bottomMargin).offset(30)
                 make.leading.equalToSuperview().offset(20)
                 make.trailing.equalToSuperview().offset(-20)
                 make.bottom.equalToSuperview().offset(-20)
@@ -154,7 +184,6 @@ class HomeViewController: UIViewController {
         let btnFavImg = UIImage(named: "favorited")
         self.btnFavourites.setBackgroundImage(btnFavImg, for: .normal)
 
-        
         self.view.addSubview(btnFavourites) //this line adds btnFavorites to the main screen
         self.view.addSubview(tableView) //this line adds the tableView to the main screen
 
@@ -162,9 +191,9 @@ class HomeViewController: UIViewController {
         //the following part of code creates constrains for btnFavorites with the help of SnapKit
         btnFavourites.snp.makeConstraints{make in
             make.top.equalToSuperview().offset(90)
-            make.leading.equalToSuperview().offset(290)
+            make.leading.equalToSuperview().offset(297)
             make.trailing.equalToSuperview().offset(-20)
-            make.height.equalTo(40)
+            make.height.equalTo(50)
         }
     
         //the following part of code creates constrains for tableView with the help of SnapKit
@@ -318,8 +347,9 @@ let baseView : UIView = {
 let titleLabel : UILabel = {
     let label1 = UILabel()
     label1.translatesAutoresizingMaskIntoConstraints = false
-    label1.font = .systemFont(ofSize: 18, weight: .bold) //this line sets the font size of the label to 18 and font weight of the label to bold
+    label1.font = .systemFont(ofSize: 20, weight: .bold) //this line sets the font size of the label to 20 and font weight of the label to bold
     label1.textColor = .black //this line sets the textColor of the label to black
+    label1.textAlignment = .center
     return label1
 }()
 
