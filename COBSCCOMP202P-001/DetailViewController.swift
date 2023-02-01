@@ -115,15 +115,16 @@ class DetailViewController: UIViewController {
         self.view.addSubview(image) //this line adds image int the main screen
         
     
+        //checking if user is not null
         if user != nil
         {
         
+            //creating 'favRef' variable to store the database reference where we store the favorite food data
             let favRef = ref.child("Users").child(user!.uid).child("favorites").child(food)
         
-        
+            //following lines of code checks if the value already exists in the database and toggles button image accordingly
             favRef.observe(.value, with: { snapshot in
-        
-            
+                    
             if snapshot.exists() == true
             {
                 self.btnAddToFavs.setBackgroundImage(self.btnFavedImg, for: .normal)
@@ -135,6 +136,9 @@ class DetailViewController: UIViewController {
         })
         
         }
+        
+        
+        //if user is null, sets button image to add to favorites icon anyway
         else
         {
             self.btnAddToFavs.setBackgroundImage(btnFavImg, for: .normal)
@@ -178,33 +182,39 @@ class DetailViewController: UIViewController {
     //declaring addToFavs function
     @objc func addToOrRemoveFromFavs()
     {
+
+        let user = FirebaseAuth.Auth.auth().currentUser //this line gets the current user into the variable named 'user'
         
-        //following lines of code addes the food to favorites if the user is signed in, otherwise redirects the user to sign in screen
-        let user = FirebaseAuth.Auth.auth().currentUser
+        //checking if the user is not null
         if user != nil{
             
+            
+            //creating 'favRef' variable to store the database reference where we store the favorite food data
             let favRef = ref.child("Users").child(user!.uid).child("favorites").child(food)
                 
-           
+            //checking if the button shows add to favorites icon
             if btnAddToFavs.backgroundImage(for: .normal) == btnFavImg
             {
-                    
+                    //if so, add the food to favorites
                     favRef.setValue(food)
                     
+                    //toggle button image
                     btnAddToFavs.setBackgroundImage(btnFavedImg, for: .normal)
                 }
                 
                 else{
                     
+                    //if not, remove from favorites
                     favRef.removeValue()
                     
+                    //toggle button image
                     btnAddToFavs.setBackgroundImage(btnFavImg, for: .normal)
                 }
             }
             
                       
         
-        
+        //if the user is null redirect user to sign in screen
         else{
             
             navigationController?.pushViewController(ViewController(), animated: true)
