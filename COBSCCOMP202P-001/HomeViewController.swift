@@ -121,7 +121,7 @@ class HomeViewController: UIViewController {
         ref = FirebaseDatabase.Database.database().reference()
         
 
-        let handel = ref?.child("Users").child(user!.uid).child("name").observe(.value, with: { snapshot in
+        ref?.child("Users").child(user!.uid).child("name").observe(.value, with: { snapshot in
             
             
             let name = snapshot.value as! String
