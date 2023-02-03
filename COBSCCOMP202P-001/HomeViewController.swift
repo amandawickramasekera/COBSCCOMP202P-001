@@ -27,6 +27,7 @@ class HomeViewController: UIViewController {
     let userlabel : UILabel = {
        let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.numberOfLines = 2
         return lbl
     }()
     
@@ -144,7 +145,7 @@ class HomeViewController: UIViewController {
         userlabel.snp.makeConstraints{make in
             make.top.equalToSuperview().offset(90)
             make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.trailing.equalToSuperview().offset(-50)
     
         }
         
