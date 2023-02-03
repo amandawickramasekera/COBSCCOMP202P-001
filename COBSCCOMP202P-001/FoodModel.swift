@@ -10,14 +10,16 @@ import Foundation
 class FoodModel{
     
     var calories: Int?
+    var calorieBreakdown : String?
     var foodName: String?
     var ingredients: String?
-    var nutrients: String?
+    var otherNutrients: String?
     
-    init(calories: Int, foodName: String, ingredients: String, nutrients: String) {
+    init(calories: Int, calorieBreakdown: String, foodName: String, ingredients: String, otherNutrients: String) {
         self.calories = calories
+        self.calorieBreakdown = calorieBreakdown
         self.ingredients = ingredients
         self.foodName = foodName
-        self.nutrients = nutrients
+        self.otherNutrients = otherNutrients
     }
 }

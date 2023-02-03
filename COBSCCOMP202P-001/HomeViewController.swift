@@ -92,12 +92,13 @@ class HomeViewController: UIViewController {
                     let foodObject = foods.value as? [String: AnyObject]
                     
                     let calories = foodObject?["Calories"]
+                    let calorieBreakdown = foodObject?["Calorie breakdown"]
                     let foodName = foodObject?["Food"]
                     let ingredients = foodObject?["Ingredients"]
-                    let nutrients = foodObject?["Nutrients"]
+                    let otherNutrients = foodObject?["Other nutrients"]
                     
                     let food = FoodModel(calories: calories as!
-                                            Int, foodName: foodName as! String, ingredients: ingredients as! String, nutrients: nutrients as! String)
+                                            Int, calorieBreakdown: calorieBreakdown as! String, foodName: foodName as! String, ingredients: ingredients as! String, otherNutrients: otherNutrients as! String)
                     
                     self.foodList.append(food)
                 
@@ -314,9 +315,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         let food : FoodModel
         food = foodList[indexPath.row]
         vc.food = food.foodName!
+        vc.calorieBreakdown = food.calorieBreakdown!
         vc.calories = food.calories!
         vc.ingredients = food.ingredients!
-        vc.nutrients = food.nutrients!
+        vc.otherNutrients = food.otherNutrients!
         
         //the following line opens the DetailViewController
         navigationController?.pushViewController(vc, animated: true)

@@ -24,8 +24,9 @@ class DetailViewController: UIViewController {
     
     var food = ""
     var calories = 0
+    var calorieBreakdown = ""
     var ingredients = ""
-    var nutrients = ""
+    var otherNutrients = ""
     
     //creating the imageView which shows the image of the selected food
     let image : UIImageView = {
@@ -52,11 +53,21 @@ class DetailViewController: UIViewController {
         return label
     }()
     
+    //creating the calorieBreakdownLabel which shows the breakdown of calories with the percentage
+    let calorieBreakdownLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 14, weight: .regular) //this line sets the font size of the label to 14 and font wight of the label to regular
+        label.numberOfLines = 2
+        return label
+    }()
+    
     //creating the ingredientsLabel which shows the ingredients of the selected food
     let ingredientsLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12, weight: .regular) //this line sets the font size of the label to 12 and font weight of the label to regular
+        label.font = .systemFont(ofSize: 14, weight: .regular) //this line sets the font size of the label to 14 and font weight of the label to regular
+        label.numberOfLines = 2
         return label
     }()
     
@@ -64,7 +75,8 @@ class DetailViewController: UIViewController {
     let nutrientsLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12, weight: .regular) //this line sets the font size of the label to 12 and font weight of the label to regular
+        label.font = .systemFont(ofSize: 14, weight: .regular) //this line sets the font size of the label to 14 and font weight of the label to regular
+        label.numberOfLines = 2
         return label
     }()
     
@@ -84,8 +96,9 @@ class DetailViewController: UIViewController {
         
         titleLabel.text = food
         caloriesLabel.text = "Number of calories: "+String(calories)
+        calorieBreakdownLabel.text = "Calorie breakdown: "+calorieBreakdown
+        nutrientsLabel.text = "Other nutrients: "+otherNutrients
         ingredientsLabel.text = "Ingredients: "+ingredients
-        nutrientsLabel.text = "Nutrients: "+nutrients
         
         setupConstraint() //calling setupConstraint function
         
@@ -144,7 +157,7 @@ class DetailViewController: UIViewController {
             self.btnAddToFavs.setBackgroundImage(btnFavImg, for: .normal)
         }
         
-        let holder = UIStackView(arrangedSubviews: [titleLabel, caloriesLabel, nutrientsLabel, ingredientsLabel]) //this line adds the subviews into the viewholder
+        let holder = UIStackView(arrangedSubviews: [titleLabel, caloriesLabel, calorieBreakdownLabel, nutrientsLabel, ingredientsLabel]) //this line adds the subviews into the viewholder
         holder.spacing = 20 //this line sets a space between the subviews of the viewholder
         holder.axis = .vertical //this line sets viewholder's axis to vertical (this means the subviews of the viewholder are set one after the other vertically)
         self.view.addSubview(holder) //this line adds view holder to the main screen
@@ -154,8 +167,8 @@ class DetailViewController: UIViewController {
         //the following part of code creates constrains for image view with the use of SnapKit
         image.snp.makeConstraints{ make in
             make.top.equalToSuperview().offset(90)
-            make.height.equalTo(350)
-            make.width.equalTo(350)
+            make.height.equalTo(250)
+            make.width.equalTo(250)
             make.leading.equalToSuperview().offset(5)
             make.trailing.equalToSuperview().offset(-5)
             make.bottom.equalTo(holder.snp_topMargin).offset(-20)
